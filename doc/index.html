@@ -1,0 +1,1775 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PyIBL version 4.2 &#8212; PyIBL 4.2 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="pyibl-version-4-2">
+<h1><a class="toc-backref" href="#id4">PyIBL version 4.2</a><a class="headerlink" href="#pyibl-version-4-2" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="contents">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#pyibl-version-4-2" id="id4">PyIBL version 4.2</a></p>
+<ul>
+<li><p><a class="reference internal" href="#introduction" id="id5">Introduction</a></p></li>
+<li><p><a class="reference internal" href="#installing-pyibl" id="id6">Installing PyIBL</a></p>
+<ul>
+<li><p><a class="reference internal" href="#examples-and-this-documentation" id="id7">Examples and this documentation</a></p></li>
+<li><p><a class="reference internal" href="#mailing-list-and-reporting-bugs" id="id8">Mailing list and reporting bugs</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#tutorial" id="id9">Tutorial</a></p>
+<ul>
+<li><p><a class="reference internal" href="#a-first-example-of-using-pyibl" id="id10">A first example of using PyIBL</a></p></li>
+<li><p><a class="reference internal" href="#multiple-agents" id="id11">Multiple agents</a></p></li>
+<li><p><a class="reference internal" href="#attributes" id="id12">Attributes</a></p></li>
+<li><p><a class="reference internal" href="#partial-matching" id="id13">Partial matching</a></p></li>
+<li><p><a class="reference internal" href="#inspecting-the-model-s-internal-state-and-computations" id="id14">Inspecting the model’s internal state and computations</a></p></li>
+<li><p><a class="reference internal" href="#further-examples" id="id15">Further Examples</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#module-pyibl" id="id16">Reference</a></p></li>
+<li><p><a class="reference internal" href="#internals" id="id17">Internals</a></p>
+<ul>
+<li><p><a class="reference internal" href="#activation" id="id18">Activation</a></p>
+<ul>
+<li><p><a class="reference internal" href="#base-level-activation" id="id19">Base level activation</a></p></li>
+<li><p><a class="reference internal" href="#activation-noise" id="id20">Activation noise</a></p></li>
+<li><p><a class="reference internal" href="#id2" id="id21">Partial Matching</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#blending" id="id22">Blending</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#changes-to-pyibl" id="id23">Changes to PyIBL</a></p>
+<ul>
+<li><p><a class="reference internal" href="#changes-between-versions-4-1-and-4-2" id="id24">Changes between versions 4.1 and  4.2</a></p></li>
+<li><p><a class="reference internal" href="#changes-between-versions-4-0-and-4-1" id="id25">Changes between versions 4.0 and  4.1</a></p></li>
+<li><p><a class="reference internal" href="#changes-between-versions-3-0-and-4-0" id="id26">Changes between versions 3.0 and  4.0</a></p></li>
+<li><p><a class="reference internal" href="#changes-between-versions-2-0-and-3-0" id="id27">Changes between versions 2.0 and  3.0</a></p></li>
+<li><p><a class="reference internal" href="#changes-between-versions-1-0-and-2-0" id="id28">Changes between versions 1.0 and 2.0</a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="introduction">
+<h2><a class="toc-backref" href="#id5">Introduction</a><a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>PyIBL is a Python implementation of a subset of Instance Based Learning Theory (IBLT) <a class="footnote-reference brackets" href="#f1" id="id1">1</a>.
+It is made and distributed by the
+<a class="reference external" href="http://ddmlab.com">Dynamic Decision Making Laboratory</a>
+of
+<a class="reference external" href="http://cmu.edu">Carnegie Mellon University</a>
+for making computational cognitive models supporting research
+in how people make decisions in dynamic environments.</p>
+<p>Typically PyIBL is used by creating an experimental framework in the Python programming language, which
+uses one or more PyIBL <code class="xref py py-class docutils literal notranslate"><span class="pre">Agent</span></code> objects. The framework
+then asks these agents to make decisions, and informs the agents of the results of
+those decisions. The framework, for example, may be strictly algorithmic, may interact with human
+subjects, or may be embedded in a web site.</p>
+<p>PyIBL is a library, or module, of <a class="reference external" href="http://www.python.org/">Python</a> code,  useful for creating
+Python programs; it is not a stand alone application.
+Some knowledge of Python programming is essential for using it.</p>
+<dl class="footnote brackets">
+<dt class="label" id="f1"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>Cleotilde Gonzalez, Javier F. Lerch and Christian Lebiere (2003),
+<a class="reference external" href="http://www.sciencedirect.com/science/article/pii/S0364021303000314">Instance-based learning in dynamic decision making,</a>
+<em>Cognitive Science</em>, <em>27</em>, 591-635. DOI: 10.1016/S0364-0213(03)00031-4.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="installing-pyibl">
+<h2><a class="toc-backref" href="#id6">Installing PyIBL</a><a class="headerlink" href="#installing-pyibl" title="Permalink to this headline">¶</a></h2>
+<p>The latest version of PyIBL can be downloaded from the
+<a class="reference external" href="http://download.ddmlab.com/cgi-bin/download?package=pyibl">DDMLab download site</a>.
+Registration is required.</p>
+<p>PyIBL requires Python version 3.7 or later. Recent versions of Mac OS X and recent Linux distributions
+are likely to have a suitable version of Python pre-installed, but it may need to be invoked as <code class="docutils literal notranslate"><span class="pre">python3</span></code>
+instead of just <code class="docutils literal notranslate"><span class="pre">python</span></code>, which latter often runs a 2.x version of Python instead. Use of a virtual environment,
+which is recommended, often obviates the need for the <code class="docutils literal notranslate"><span class="pre">python3</span></code>/<code class="docutils literal notranslate"><span class="pre">python</span></code> distinction.
+If it is not already installed, Python, for Windows, Mac OS X, Linux, or other Unices, can be
+<a class="reference external" href="http://www.python.org/download/">downloaded from python.org</a>, for free.</p>
+<p>PyIBL also works in recent versions of <a class="reference external" href="https://pypy.org/">PyPy</a>, an alternative implementation to the usual CPython.
+PyPy uses a just-in-time (JIT) compiler, which is a good match for PyIBL, and PyIBL models often
+run faster in PyPy compared to CPython.</p>
+<p>Note that PyIBL is simply a Python module, a library, that is run as part of a larger
+Python program. To build and run models using PyIBL you do need to do
+some Python programming. If you’re new to Python, a good place to
+start learning it is <a class="reference external" href="https://docs.python.org/3.7/tutorial/">The Python Tutorial</a>.
+To write and run a Python program you need to create and edit Python
+source files, and then run them. If you are comfortable using the command
+line, you can simply create and edit the files in your favorite text editor,
+and run them from the command line. Many folks, though, are happier using
+a graphical Integrated Development Environment (IDE).
+<a class="reference external" href="https://wiki.python.org/moin/IntegratedDevelopmentEnvironments">Many Python IDEs are available</a>.
+One  is
+<a class="reference external" href="https://docs.python.org/3.7/library/idle.html">IDLE</a>,
+which comes packaged with Python itself, so if you installed Python
+you should have it available.</p>
+<p>After you <a class="reference external" href="http://download.ddmlab.com/cgi-bin/download?package=pyibl">download PyIBL</a>,  you will
+have a file with a name something like <code class="docutils literal notranslate"><span class="pre">pyibl-4.2.tar.gz</span></code>. Assuming you are
+using macOS or Linux, have a sufficiently recent version of Python and
+it’s corresponding <code class="docutils literal notranslate"><span class="pre">pip</span></code> installed, and are in the same directory as
+this file you can install PyIBL by typing at the command line</p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">pyibl</span><span class="o">-</span><span class="mf">4.2</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Depending upon various possible variations in how Python and your machine are configured
+you may have to modify the above in various ways</p>
+<ul class="simple">
+<li><p>you may need to ensure your virtual environment is activated</p></li>
+<li><p>you may need use an alternative scheme your Python IDE supports</p></li>
+<li><p>you may need to call it <code class="docutils literal notranslate"><span class="pre">pip3</span></code> instead of simply <code class="docutils literal notranslate"><span class="pre">pip</span></code></p></li>
+<li><p>you may need to precede the call to <code class="docutils literal notranslate"><span class="pre">pip</span></code> by <code class="docutils literal notranslate"><span class="pre">sudo</span></code></p></li>
+<li><p>you may need to use some combination of the above</p></li>
+</ul>
+<p>On Windows you may need to use some sort of Microsoft-specific incantation.
+Consult Windows Python documentation for help, and adjust the above instructions to match.</p>
+<div class="section" id="examples-and-this-documentation">
+<h3><a class="toc-backref" href="#id7">Examples and this documentation</a><a class="headerlink" href="#examples-and-this-documentation" title="Permalink to this headline">¶</a></h3>
+<p>In addition to PyIBL itself, the download site also makes available</p>
+<ul class="simple">
+<li><p>a selection of example models using PyIBL</p></li>
+<li><p>and this document, as a directory of files. After downloading the directory point a browser at the file <code class="docutils literal notranslate"><span class="pre">index.html</span></code> within it.</p></li>
+</ul>
+</div>
+<div class="section" id="mailing-list-and-reporting-bugs">
+<h3><a class="toc-backref" href="#id8">Mailing list and reporting bugs</a><a class="headerlink" href="#mailing-list-and-reporting-bugs" title="Permalink to this headline">¶</a></h3>
+<p>Users and others interested in PyIBL are encouraged to subscribe to the
+<a class="reference external" href="https://lists.andrew.cmu.edu/mailman/listinfo/pyibl-users">PyIBL mailing list</a>.</p>
+<p>The PyIBL community is small enough that this serves both as an announcement list and a discussion list.
+Announcements of new versions of PyIBL will be made here, and it is a good place to ask questions about
+PyIBL or solicit other help in using it.</p>
+<p>It is also a good place to report any bugs, or suspected bugs, in PyIBL. If, however, you would
+prefer not to report them to this list, please feel free to instead send them to
+<a class="reference external" href="mailto:dfm2&#37;&#52;&#48;cmu&#46;edu">Don Morrison</a>.</p>
+</div>
+</div>
+<div class="section" id="tutorial">
+<h2><a class="toc-backref" href="#id9">Tutorial</a><a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h2>
+<p>Likely the easiest way to get started with PyIBL is by looking at some examples of its use.
+While much of what is in this chapter should be understandable even without much knowledge of Python, to
+write your own models you’ll need to know how to write Python code.
+If you are new to Python, a good place to start may be
+the <a class="reference external" href="https://docs.python.org/3.7/tutorial/">Python Tutorial</a>.</p>
+<div class="section" id="a-first-example-of-using-pyibl">
+<h3><a class="toc-backref" href="#id10">A first example of using PyIBL</a><a class="headerlink" href="#a-first-example-of-using-pyibl" title="Permalink to this headline">¶</a></h3>
+<p>In the code blocks that follow, lines the user has typed begin with any of the three prompts,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$
+&gt;&gt;&gt;
+...
+</pre></div>
+</div>
+<p>Other lines are printed by Python or some other command.</p>
+<p>First we launch Python, and make PyIBL available to it. While the output here was
+captured in a Linux distribution and virtual environment in which you launch Python version 3.7 by typing <code class="docutils literal notranslate"><span class="pre">python</span></code>,
+your installation my differ and you may launch it with <code class="docutils literal notranslate"><span class="pre">python3</span></code>, <code class="docutils literal notranslate"><span class="pre">py</span></code>, or something else
+entirely; or start an interactive session in a completely different way using a
+graphical IDE.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ python
+Python 3.9.0 | packaged by conda-forge | (default, Oct 14 2020, 22:59:50)
+[GCC 7.5.0] on linux
+Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.
+&gt;&gt;&gt; import pyibl
+</pre></div>
+</div>
+<p>Next we create an <code class="xref py py-class docutils literal notranslate"><span class="pre">Agent</span></code>, named <code class="docutils literal notranslate"><span class="pre">'My</span> <span class="pre">Agent'</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">pyibl</span><span class="o">.</span><span class="n">Agent</span><span class="p">(</span><span class="s2">&quot;My Agent&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>
+<span class="go">&lt;Agent My Agent 140441174486264&gt;</span>
+</pre></div>
+</div>
+<p>We  have to tell the agent what do if we ask it to choose between options
+it has never previously experienced. One way to do this is to set a default
+by setting the agent’s <code class="xref py py-attr docutils literal notranslate"><span class="pre">Agent.default_utility</span></code> property.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">default_utility</span> <span class="o">=</span> <span class="mf">10.0</span>
+</pre></div>
+</div>
+<p>Now we can ask the agent to choose between two options, that we’ll just describe
+using two strings. When you try this yourself you may get the opposite answer
+as the IBLT theory is stochastic, which is particularly
+obvious in cases like this where there is no reason yet to prefer one answer to the other.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">choose</span><span class="p">(</span><span class="s2">&quot;The Green Button&quot;</span><span class="p">,</span> <span class="s2">&quot;The Red Button&quot;</span><span class="p">)</span>
+<span class="go">&#39;The Green Button&#39;</span>
+</pre></div>
+</div>
+<p>Now return a response to the model. We’ll supply 1.0.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">respond</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Because that value is significantly less than the default utility when we ask
+the agent to make the same choice again, we expect it with high
+probability to pick the other button.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">choose</span><span class="p">(</span><span class="s2">&quot;The Green Button&quot;</span><span class="p">,</span> <span class="s2">&quot;The Red Button&quot;</span><span class="p">)</span>
+<span class="go">&#39;The Red Button&#39;</span>
+</pre></div>
+</div>
+<p>We’ll give it an even lower utility than we did the first one.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">respond</span><span class="p">(</span><span class="o">-</span><span class="mf">2.0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If we stick with these responses the model will tend to favor the first button selected.
+Again, your results may differ in detail because of randomness.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">choose</span><span class="p">(</span><span class="s2">&quot;The Green Button&quot;</span><span class="p">,</span> <span class="s2">&quot;The Red Button&quot;</span><span class="p">)</span>
+<span class="go">&#39;The Green Button&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">respond</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">choose</span><span class="p">(</span><span class="s2">&quot;The Green Button&quot;</span><span class="p">,</span> <span class="s2">&quot;The Red Button&quot;</span><span class="p">)</span>
+<span class="go">&#39;The Red Button&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">respond</span><span class="p">(</span><span class="o">-</span><span class="mf">2.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">choose</span><span class="p">(</span><span class="s2">&quot;The Green Button&quot;</span><span class="p">,</span> <span class="s2">&quot;The Red Button&quot;</span><span class="p">)</span>
+<span class="go">&#39;The Green Button&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">respond</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">choose</span><span class="p">(</span><span class="s2">&quot;The Green Button&quot;</span><span class="p">,</span> <span class="s2">&quot;The Red Button&quot;</span><span class="p">)</span>
+<span class="go">&#39;The Green Button&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">respond</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">choose</span><span class="p">(</span><span class="s2">&quot;The Green Button&quot;</span><span class="p">,</span> <span class="s2">&quot;The Red Button&quot;</span><span class="p">)</span>
+<span class="go">&#39;The Green Button&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">respond</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">choose</span><span class="p">(</span><span class="s2">&quot;The Green Button&quot;</span><span class="p">,</span> <span class="s2">&quot;The Red Button&quot;</span><span class="p">)</span>
+<span class="go">&#39;The Green Button&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">respond</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>But doing this by hand isn’t very useful for modeling.
+Instead, let’s write a function that asks the model to make
+this choice, and automates the reply.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">choose_and_respond</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="n">result</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">choose</span><span class="p">(</span><span class="s2">&quot;The Green Button&quot;</span><span class="p">,</span> <span class="s2">&quot;The Red Button&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">if</span> <span class="n">result</span> <span class="o">==</span> <span class="s2">&quot;The Green Button&quot;</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="n">a</span><span class="o">.</span><span class="n">respond</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">else</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="n">a</span><span class="o">.</span><span class="n">respond</span><span class="p">(</span><span class="o">-</span><span class="mf">2.0</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">result</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">choose_and_respond</span><span class="p">()</span>
+<span class="go">&#39;The Green Button&#39;</span>
+</pre></div>
+</div>
+<p>Let’s ask the model to make this choice a thousand times, and see how many
+times it picks each button. But let’s do this from a clean slate. So, before
+we run it, we’ll call <code class="xref py py-meth docutils literal notranslate"><span class="pre">reset()</span></code> to clear the agent’s memory.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;The Green Button&quot;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;The Red Button&quot;</span> <span class="p">:</span> <span class="mi">0</span> <span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">results</span><span class="p">[</span><span class="n">choose_and_respond</span><span class="p">()]</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">results</span>
+<span class="go">{&#39;The Red Button&#39;: 11, &#39;The Green Button&#39;: 989}</span>
+</pre></div>
+</div>
+<p>As we expected the model prefers the green button, but because of randomness, does
+try the red one occasionally.</p>
+<p>Now let’s add some other choices. We’ll make a more complicated function
+that takes a dictionary of choices and the responses they generate,
+and see how they do. This will make use of a bit more Python.
+The default utility is still 10, and so long
+as the responses are well below that we can reasonably expect the first
+few trials to sample them all before favoring those that give the best
+results; but after the model gains more experience, it will favor whatever
+color or colors give the highest rewards.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">choose_and_respond</span><span class="p">(</span><span class="n">choices</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">result</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">choose</span><span class="p">(</span><span class="o">*</span><span class="n">choices</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">a</span><span class="o">.</span><span class="n">respond</span><span class="p">(</span><span class="n">choices</span><span class="p">[</span><span class="n">result</span><span class="p">])</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">result</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">choices</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;green&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;blue&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;yellow&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">4</span><span class="p">,</span>
+<span class="gp">... </span>            <span class="s2">&quot;red&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="s2">&quot;violet&quot;</span><span class="p">:</span> <span class="mi">0</span> <span class="p">}</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="p">{</span> <span class="n">k</span><span class="p">:</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">choices</span> <span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">results</span>
+<span class="go">{&#39;green&#39;: 0, &#39;blue&#39;: 0, &#39;yellow&#39;: 0, &#39;red&#39;: 0, &#39;violet&#39;: 0}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">results</span><span class="p">[</span><span class="n">choose_and_respond</span><span class="p">(</span><span class="n">choices</span><span class="p">)]</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">results</span>
+<span class="go">{&#39;green&#39;: 1, &#39;blue&#39;: 1, &#39;yellow&#39;: 1, &#39;red&#39;: 1, &#39;violet&#39;: 1}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">995</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">results</span><span class="p">[</span><span class="n">choose_and_respond</span><span class="p">(</span><span class="n">choices</span><span class="p">)]</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">results</span>
+<span class="go">{&#39;green&#39;: 10, &#39;blue&#39;: 488, &#39;yellow&#39;: 8, &#39;red&#39;: 8, &#39;violet&#39;: 486}</span>
+</pre></div>
+</div>
+<p>The results are as we expected.</p>
+</div>
+<div class="section" id="multiple-agents">
+<h3><a class="toc-backref" href="#id11">Multiple agents</a><a class="headerlink" href="#multiple-agents" title="Permalink to this headline">¶</a></h3>
+<p>A PyIBL model is not limited to using just one agent. It can use as many as
+the modeler wishes. For this example we’ll have ten players competing for rewards.
+Each player, at each turn, will pick either <code class="docutils literal notranslate"><span class="pre">'safe'</span></code> or <code class="docutils literal notranslate"><span class="pre">'risky'</span></code>.
+Any player picking <code class="docutils literal notranslate"><span class="pre">'safe'</span></code> will always receive 1 point. All those
+players picking <code class="docutils literal notranslate"><span class="pre">'risky'</span></code> will share 7 points divided evenly between them; if fewer
+than seven players pick <code class="docutils literal notranslate"><span class="pre">'risky'</span></code> those who did will do better than
+if they had picked <code class="docutils literal notranslate"><span class="pre">'safe'</span></code>, but if more than seven players pick <code class="docutils literal notranslate"><span class="pre">'risky'</span></code>
+they will do worse.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyibl</span> <span class="kn">import</span> <span class="n">Agent</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">agents</span> <span class="o">=</span> <span class="p">[</span> <span class="n">Agent</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">default_utility</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="gp">... </span>           <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="s2">&quot;ABCDEFGHIJ&quot;</span> <span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">play_round</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="n">choices</span> <span class="o">=</span> <span class="p">[</span> <span class="n">a</span><span class="o">.</span><span class="n">choose</span><span class="p">(</span><span class="s1">&#39;safe&#39;</span><span class="p">,</span> <span class="s1">&#39;risky&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">agents</span> <span class="p">]</span>
+<span class="gp">... </span>    <span class="n">risky</span> <span class="o">=</span> <span class="p">[</span> <span class="n">a</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">agents</span><span class="p">,</span> <span class="n">choices</span><span class="p">)</span> <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;risky&#39;</span> <span class="p">]</span>
+<span class="gp">... </span>    <span class="n">reward</span> <span class="o">=</span> <span class="mi">7</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">risky</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">agents</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="k">if</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">risky</span><span class="p">:</span>
+<span class="gp">... </span>            <span class="n">a</span><span class="o">.</span><span class="n">respond</span><span class="p">(</span><span class="n">reward</span><span class="p">)</span>
+<span class="gp">... </span>        <span class="k">else</span><span class="p">:</span>
+<span class="gp">... </span>            <span class="n">a</span><span class="o">.</span><span class="n">respond</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="p">(</span><span class="n">reward</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span> <span class="n">a</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">risky</span> <span class="p">]))</span>
+</pre></div>
+</div>
+<p>Here’s what running it for ten rounds looks like.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">play_round</span><span class="p">())</span>
+<span class="gp">...</span>
+<span class="go">(1.4, &#39;BDFHI&#39;)</span>
+<span class="go">(1.4, &#39;ACEGJ&#39;)</span>
+<span class="go">(1.75, &#39;DFGI&#39;)</span>
+<span class="go">(1.4, &#39;BDEHJ&#39;)</span>
+<span class="go">(0.875, &#39;ABCEFGHI&#39;)</span>
+<span class="go">(0.7777777777777778, &#39;ABCDFGHIJ&#39;)</span>
+<span class="go">(1.4, &#39;ACEFG&#39;)</span>
+<span class="go">(1.75, &#39;BHIJ&#39;)</span>
+<span class="go">(1.0, &#39;ACDEGHJ&#39;)</span>
+</pre></div>
+</div>
+<p>By just looking at a small sample of runs we can’t really discern any
+interesting patterns. Instead we’ll write a function that runs the
+agents many times, and gathers some statistics. We’ll work out how
+many agents pick risky, on average, by counting the length of the
+second value returned by <code class="docutils literal notranslate"><span class="pre">play_round()</span></code>; how many times each of the
+agents picked risky; and what the aggregate payoff was to each agent.
+And then run it for 1,000 rounds.</p>
+<p>Note that before running it we get a clean slate by calling each agent’s
+<code class="docutils literal notranslate"><span class="pre">reset</span></code> method. And for the payoffs we round the results to one decimal
+place, as Python by default would be showing them to about 16 decimal
+places, and we don’t need that kind of precision.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">statistics</span> <span class="kn">import</span> <span class="n">mean</span><span class="p">,</span> <span class="n">median</span><span class="p">,</span> <span class="n">mode</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">count</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">run_agents</span><span class="p">(</span><span class="n">rounds</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">agents</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="n">a</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="n">by_round</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="gp">... </span>    <span class="n">by_agent</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">agents</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">agent_payoffs</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">agents</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">rounds</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="n">payoff</span><span class="p">,</span> <span class="n">chose_risky</span> <span class="o">=</span> <span class="n">play_round</span><span class="p">()</span>
+<span class="gp">... </span>        <span class="n">by_round</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">chose_risky</span><span class="p">))</span>
+<span class="gp">... </span>        <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">agents</span><span class="p">,</span> <span class="n">count</span><span class="p">()):</span>
+<span class="gp">... </span>            <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">chose_risky</span><span class="p">:</span>
+<span class="gp">... </span>                <span class="n">by_agent</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="gp">... </span>                <span class="n">agent_payoffs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">payoff</span>
+<span class="gp">... </span>            <span class="k">else</span><span class="p">:</span>
+<span class="gp">... </span>                <span class="n">agent_payoffs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">mean</span><span class="p">(</span><span class="n">by_round</span><span class="p">),</span> <span class="n">median</span><span class="p">(</span><span class="n">by_round</span><span class="p">),</span> <span class="n">mode</span><span class="p">(</span><span class="n">by_round</span><span class="p">))</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">by_agent</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">([</span><span class="nb">float</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">p</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">agent_payoffs</span><span class="p">])</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">run_agents</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+<span class="go">6.408 7.0 7</span>
+<span class="go">[856, 283, 681, 851, 313, 230, 874, 706, 820, 794]</span>
+<span class="go">[1106.2, 1001.0, 1056.5, 1097.7, 1004.9, 1001.8, 1102.2, 1052.7, 1092.1, 1076.9]</span>
+</pre></div>
+</div>
+<p>Note that this time when we ran it seven of the agents chose risky over two thirds of the
+time, but three, b, e and f, chose it less than one third of the time, but all received
+about the same reward over the course of 1,000 rounds, just a little better than
+if they’d all always chosen safe.</p>
+<p>Let’s run it for a few more 1,000 round blocks.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">run_agents</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+<span class="go">6.483 6.0 6</span>
+<span class="go">[335, 884, 630, 472, 165, 875, 857, 706, 886, 673]</span>
+<span class="go">[1007.9, 1091.8, 1029.9, 1007.6, 1000.2, 1100.9, 1080.3, 1051.5, 1103.7, 1043.2]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">run_agents</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+<span class="go">6.476 7.0 7</span>
+<span class="go">[323, 318, 267, 299, 888, 847, 834, 902, 912, 886]</span>
+<span class="go">[1005.1, 1003.8, 1001.4, 1001.0, 1088.2, 1078.6, 1063.1, 1094.0, 1098.0, 1090.7]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">run_agents</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+<span class="go">6.455 6.0 6</span>
+<span class="go">[525, 572, 716, 558, 666, 707, 828, 641, 502, 740]</span>
+<span class="go">[1031.6, 1030.3, 1067.6, 1034.4, 1051.9, 1075.7, 1112.5, 1048.9, 1026.9, 1065.3]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">run_agents</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+<span class="go">6.408 7.0 7</span>
+<span class="go">[856, 283, 681, 851, 313, 230, 874, 706, 820, 794]</span>
+<span class="go">[1106.2, 1001.0, 1056.5, 1097.7, 1004.9, 1001.8, 1102.2, 1052.7, 1092.1, 1076.9]</span>
+</pre></div>
+</div>
+<p>We see that a similar pattern holds, with a majority of the agents, when seen
+over the full 1,000 rounds, having largely favored a risky
+strategy, but a minority, again over the full 1,000 rounds, having favored a safe strategy.
+But which agents these are, of course, varies from block to block; and, perhaps, if we
+looked at more local sequences of decisions, we might see individual agent’s strategies
+shifting over time.</p>
+</div>
+<div class="section" id="attributes">
+<h3><a class="toc-backref" href="#id12">Attributes</a><a class="headerlink" href="#attributes" title="Permalink to this headline">¶</a></h3>
+<p>The choices an agent decides between are not limited to atomic entities
+as we’ve used in the above. They can be structured using “attributes.”
+Such attributes need to be declared when the agent is created.</p>
+<p>As a concrete example, we’ll have our agent decide which of two buttons,
+<code class="docutils literal notranslate"><span class="pre">'left'</span></code> or <code class="docutils literal notranslate"><span class="pre">'right'</span></code>, to push. But one of these buttons will be
+illuminated. Which is illuminated at any time is decided randomly, with
+even chances for either. Pushing the left button earns a base reward of
+1, and the right button of 2; but when a button is illuminated its reward
+is doubled.</p>
+<p>We’ll define our agent to have two attributes, <code class="docutils literal notranslate"><span class="pre">&quot;button&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;illuminatted&quot;</span></code>.
+The first is which button, and the second is whether or not that button is illumiunated.
+In this example the the <code class="docutils literal notranslate"><span class="pre">&quot;button&quot;</span></code> value is the decision to be made, and
+<code class="docutils literal notranslate"><span class="pre">&quot;illuminatted&quot;</span></code> value represents the context, or situation, in which this decision is being made.</p>
+<p>We’ll start by creating an agent, and two choices, one for each button.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyibl</span> <span class="kn">import</span> <span class="n">Agent</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">random</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">Agent</span><span class="p">(</span><span class="s2">&quot;My Agent&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;button&quot;</span><span class="p">,</span> <span class="s2">&quot;illuminated&quot;</span><span class="p">],</span> <span class="n">default_utility</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">left</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;button&quot;</span><span class="p">:</span> <span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="s2">&quot;illuminated&quot;</span><span class="p">:</span> <span class="kc">False</span> <span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">right</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;button&quot;</span><span class="p">:</span> <span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="s2">&quot;illuminated&quot;</span><span class="p">:</span> <span class="kc">False</span> <span class="p">}</span>
+</pre></div>
+</div>
+<p>While we’ve created them both with the button un-illuminated, the code
+that actually runs the experiment will turn one of them on, randomly.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">push_button</span><span class="p">():</span>
+<span class="gp">... </span><span class="k">if</span> <span class="n">random</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="mf">0.5</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">left</span><span class="p">[</span><span class="s2">&quot;illuminated&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="gp">... </span><span class="k">else</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">left</span><span class="p">[</span><span class="s2">&quot;illuminated&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="gp">... </span><span class="n">right</span><span class="p">[</span><span class="s2">&quot;illuminated&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">left</span><span class="p">[</span><span class="s2">&quot;illuminated&quot;</span><span class="p">]</span>
+<span class="gp">... </span><span class="n">result</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">choose</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">reward</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">result</span><span class="p">[</span><span class="s2">&quot;button&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;left&quot;</span> <span class="k">else</span> <span class="mi">2</span>
+<span class="gp">... </span><span class="k">if</span> <span class="n">result</span><span class="p">[</span><span class="s2">&quot;illuminated&quot;</span><span class="p">]:</span>
+<span class="gp">... </span>    <span class="n">reward</span> <span class="o">*=</span> <span class="mi">2</span>
+<span class="gp">... </span><span class="n">a</span><span class="o">.</span><span class="n">respond</span><span class="p">(</span><span class="n">reward</span><span class="p">)</span>
+<span class="gp">... </span><span class="k">return</span> <span class="n">result</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">push_button</span><span class="p">()</span>
+<span class="go">{&#39;button&#39;: &#39;right&#39;, &#39;illuminated&#39;: True}</span>
+</pre></div>
+</div>
+<p>Now we’ll <code class="docutils literal notranslate"><span class="pre">reset</span></code> the agent, and then run it 2,000 times, counting how many times each button
+is picked, and how many times an illuminated button is picked.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;right&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">True</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">False</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2000</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">result</span> <span class="o">=</span> <span class="n">push_button</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="n">results</span><span class="p">[</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;button&quot;</span><span class="p">]]</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="gp">... </span>    <span class="n">results</span><span class="p">[</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;illuminated&quot;</span><span class="p">]]</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">results</span>
+<span class="go">{&#39;left&#39;: 518, &#39;right&#39;: 1482, True: 1483, False: 517}</span>
+</pre></div>
+</div>
+<p>As we might have expected the right button is favored, as are illuminated ones, but
+since an illuminated left is as good as a non-illuminated right neither completely
+dominates.</p>
+</div>
+<div class="section" id="partial-matching">
+<h3><a class="toc-backref" href="#id13">Partial matching</a><a class="headerlink" href="#partial-matching" title="Permalink to this headline">¶</a></h3>
+<p>In the previous examples experience from prior experiences only
+applied if the prior decisions, or their contexts, matched exactly the
+ones being considered for the current choice. But often we want to
+choose the option that most closely matches, though not necessarily
+exactly, for some definition of “closely.” To do this we define a
+similarity function for those attributes we want to partially match,
+and specify a <code class="docutils literal notranslate"><span class="pre">mismatch_penalty</span> <span class="pre">parameter</span></code>.</p>
+<p>In this example there will be a continuous function, <code class="docutils literal notranslate"><span class="pre">f()</span></code>, that maps
+a number between zero and one to a reward value. At each round the model
+will be passed five random numbers between zero and one, and be asked to
+select the one that it expects will give the greatest reward. We’ll start
+by defining an agent that expects choices to have a single attribute, <code class="docutils literal notranslate"><span class="pre">n</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyibl</span> <span class="kn">import</span> <span class="n">Agent</span><span class="p">,</span> <span class="n">similarity</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">random</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">math</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">Agent</span><span class="p">(</span><span class="s2">&quot;My Agent&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;n&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>We’ll define a similarity function for that attribute, a function of two variables, two different values
+of the attribute to be compared. When the attribute
+values are the same the value should be 1, and when they are maximally
+dissimilar, 0. The similarity function we’re supplying is scaled linearly, and its
+value ranges from 0, if one of its arguments is 1 and the other is 0, and otherwise scales up
+to 1 when they are equal. So, for example, 0.31 and 0.32 have a large similarity, 0.99, but
+0.11 and 0.93 have a small similarity, 0.18.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">similarity</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="mi">1</span> <span class="o">-</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">y</span><span class="p">),</span> <span class="s2">&quot;n&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="xref py py-attr docutils literal notranslate"><span class="pre">mismatch_penalty</span></code> is a non-negative number that says how much to
+penalize past experiences for poor matches to the options currently
+under consideration. The larger its value, the more mismatches
+are penalized. We’ll experiment with different values of the <code class="docutils literal notranslate"><span class="pre">mismatch_penalty</span></code>
+in our model</p>
+<p>Let’s define a function that will run our model, with the number of
+iterations, the <code class="docutils literal notranslate"><span class="pre">mismatch_penalty</span></code>, and the reward function supplied as parameters.
+Note that we reset the agent at the beginning of this function.
+We then supply one starting datum for the model to use, the value of the reward
+function when applied to zero. After asking the agent to choose one of five,
+randomly assigned values, our <code class="docutils literal notranslate"><span class="pre">run_model</span></code> function will work out which would have
+given the highest reward, and keep track of how often the model did make that choice.
+We’ll round that fraction of correct choices made down to two decimal places to
+make sure it is displayed nicely.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">run_model</span><span class="p">(</span><span class="n">trials</span><span class="p">,</span> <span class="n">mismatch</span><span class="p">,</span> <span class="n">f</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">a</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="n">a</span><span class="o">.</span><span class="n">mismatch_penalty</span> <span class="o">=</span> <span class="n">mismatch</span>
+<span class="gp">... </span>    <span class="n">a</span><span class="o">.</span><span class="n">populate</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="p">{</span><span class="s2">&quot;n&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">})</span>
+<span class="gp">... </span>    <span class="n">number_correct</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="gp">... </span>    <span class="n">fraction_correct</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="gp">... </span>    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">trials</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="n">options</span> <span class="o">=</span> <span class="p">[</span> <span class="p">{</span><span class="s2">&quot;n&quot;</span><span class="p">:</span> <span class="n">random</span><span class="p">()}</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="p">]</span>
+<span class="gp">... </span>        <span class="n">choice</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">choose</span><span class="p">(</span><span class="o">*</span><span class="n">options</span><span class="p">)</span>
+<span class="gp">... </span>        <span class="n">best</span> <span class="o">=</span> <span class="o">-</span><span class="n">float_info</span><span class="o">.</span><span class="n">max</span>
+<span class="gp">... </span>        <span class="n">best_choice</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="gp">... </span>        <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">options</span><span class="p">:</span>
+<span class="gp">... </span>            <span class="n">v</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">o</span><span class="p">[</span><span class="s2">&quot;n&quot;</span><span class="p">])</span>
+<span class="gp">... </span>            <span class="k">if</span> <span class="n">o</span> <span class="o">==</span> <span class="n">choice</span><span class="p">:</span>
+<span class="gp">... </span>                <span class="n">a</span><span class="o">.</span><span class="n">respond</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+<span class="gp">... </span>            <span class="k">if</span> <span class="n">v</span> <span class="o">&gt;</span> <span class="n">best</span><span class="p">:</span>
+<span class="gp">... </span>                <span class="n">best</span> <span class="o">=</span> <span class="n">v</span>
+<span class="gp">... </span>                <span class="n">best_choice</span> <span class="o">=</span> <span class="n">o</span>
+<span class="gp">... </span>        <span class="k">if</span> <span class="n">choice</span> <span class="o">==</span> <span class="n">best_choice</span><span class="p">:</span>
+<span class="gp">... </span>            <span class="n">number_correct</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="gp">... </span>        <span class="n">fraction_correct</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">number_correct</span> <span class="o">/</span> <span class="p">(</span><span class="n">t</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">fraction_correct</span>
+</pre></div>
+</div>
+<p>For our reward function we’ll define a quadratic function that has a single peak of value 5 when called on 0.72, and
+drops off on either side, down to 2.4 when called on 0 and down to 4.6 when called on 1.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="gp">... </span>   <span class="k">return</span> <span class="mi">5</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">math</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="mf">0.72</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Let’s first run it with a mismatch penalty of zero, which means all values
+will be considered equally good, and the result will simply be random guessing.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">run_model</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+<span class="go">[0.0, 0.0, 0.0, 0.25, 0.2, 0.17, 0.14, 0.25, 0.22, 0.2, 0.18,</span>
+<span class="go"> 0.25, 0.31, 0.29, 0.27, 0.31, 0.29, 0.28, 0.26, 0.25, 0.24, 0.23,</span>
+<span class="go"> 0.22, 0.21, 0.2, 0.19, 0.19, 0.18, 0.17, 0.2, 0.19, 0.19, 0.18,</span>
+<span class="go"> 0.18, 0.17, 0.17, 0.19, 0.18, 0.18, 0.17, 0.17, 0.17, 0.16, 0.16,</span>
+<span class="go"> 0.16, 0.15, 0.15, 0.15, 0.14, 0.14, 0.14, 0.13, 0.13, 0.13, 0.13,</span>
+<span class="go"> 0.12, 0.14, 0.16, 0.15, 0.15, 0.15, 0.15, 0.16, 0.16, 0.15, 0.17,</span>
+<span class="go"> 0.16, 0.16, 0.16, 0.16, 0.17, 0.17, 0.16, 0.16, 0.17, 0.17, 0.17,</span>
+<span class="go"> 0.18, 0.18, 0.19, 0.19, 0.18, 0.18, 0.19, 0.19, 0.19, 0.18, 0.18,</span>
+<span class="go"> 0.18, 0.18, 0.19, 0.18, 0.18, 0.18, 0.19, 0.2, 0.2, 0.2, 0.2, 0.2]</span>
+</pre></div>
+</div>
+<p>As we can see, it looks like random guessing, getting things right only about 20% of the time.</p>
+<p>Now let’s try it with a mismatch penalty of 1, which won’t pay too much attention to
+how closely the values match those we’ve seen before, but will pay a little bit of attention to it.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">run_model</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+<span class="go">[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.14, 0.12, 0.11, 0.1, 0.18, 0.25,</span>
+<span class="go"> 0.31, 0.29, 0.27, 0.31, 0.29, 0.33, 0.32, 0.3, 0.29, 0.32, 0.35,</span>
+<span class="go"> 0.33, 0.36, 0.35, 0.37, 0.36, 0.34, 0.33, 0.35, 0.34, 0.33, 0.32,</span>
+<span class="go"> 0.34, 0.36, 0.35, 0.34, 0.36, 0.35, 0.37, 0.36, 0.35, 0.34, 0.36,</span>
+<span class="go"> 0.37, 0.36, 0.35, 0.37, 0.36, 0.35, 0.37, 0.38, 0.39, 0.4, 0.41,</span>
+<span class="go"> 0.4, 0.41, 0.41, 0.4, 0.39, 0.4, 0.41, 0.41, 0.42, 0.42, 0.42,</span>
+<span class="go"> 0.43, 0.42, 0.41, 0.42, 0.42, 0.42, 0.42, 0.41, 0.42, 0.42, 0.41,</span>
+<span class="go"> 0.41, 0.41, 0.41, 0.4, 0.4, 0.4, 0.41, 0.41, 0.4, 0.4, 0.39, 0.39,</span>
+<span class="go"> 0.4, 0.4, 0.4, 0.4, 0.41, 0.42, 0.41, 0.42, 0.41, 0.42]</span>
+</pre></div>
+</div>
+<p>While it started out guessing, since it had only minimal information, as it
+learns more the model does much better, reaching correct answers about 40% of the time,
+twice as good a random.</p>
+<p>If we use a much larger mismatch penalty, 30, we’ll see an even greater improvement,
+converging on being correct about 90% of the time.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">run_model</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+<span class="go">[0.0, 0.0, 0.33, 0.5, 0.6, 0.5, 0.57, 0.62, 0.67, 0.6, 0.55, 0.58,</span>
+<span class="go"> 0.62, 0.64, 0.6, 0.62, 0.65, 0.67, 0.68, 0.7, 0.71, 0.68, 0.7,</span>
+<span class="go"> 0.71, 0.72, 0.73, 0.74, 0.75, 0.76, 0.77, 0.77, 0.78, 0.79, 0.79,</span>
+<span class="go"> 0.8, 0.81, 0.81, 0.82, 0.82, 0.82, 0.83, 0.83, 0.84, 0.84, 0.84,</span>
+<span class="go"> 0.85, 0.85, 0.85, 0.86, 0.86, 0.86, 0.87, 0.87, 0.87, 0.87, 0.88,</span>
+<span class="go"> 0.88, 0.88, 0.88, 0.88, 0.89, 0.89, 0.89, 0.89, 0.89, 0.89, 0.9,</span>
+<span class="go"> 0.9, 0.88, 0.89, 0.89, 0.89, 0.89, 0.89, 0.89, 0.89, 0.9, 0.9,</span>
+<span class="go"> 0.9, 0.9, 0.9, 0.89, 0.89, 0.89, 0.89, 0.9, 0.9, 0.9, 0.9, 0.9,</span>
+<span class="go"> 0.9, 0.9, 0.9, 0.9, 0.91, 0.9, 0.9, 0.9, 0.9, 0.9]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="inspecting-the-model-s-internal-state-and-computations">
+<h3><a class="toc-backref" href="#id14">Inspecting the model’s internal state and computations</a><a class="headerlink" href="#inspecting-the-model-s-internal-state-and-computations" title="Permalink to this headline">¶</a></h3>
+<p>Sometimes, possibly for debugging, possibly for writing detailed log files,
+and possibly for making unusual models, we want to be able to see what’s
+going on inside PyIBL. Several tools are provided to facilitate this.</p>
+<p>The <code class="xref py py-meth docutils literal notranslate"><span class="pre">instances()</span></code> method show’s all instances currently in an agent’s memory.</p>
+<p>Consider this simple, binary choice model, that selects between a safe choice,
+always return 1, and a risky choice which returns 2 fifty percent of the time,
+and 0 otherwise.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">Agent</span><span class="p">(</span><span class="n">default_utility</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">run_once</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">choose</span><span class="p">(</span><span class="s2">&quot;safe&quot;</span><span class="p">,</span> <span class="s2">&quot;risky&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;safe&quot;</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="n">a</span><span class="o">.</span><span class="n">respond</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">elif</span> <span class="n">random</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="mf">0.5</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="n">a</span><span class="o">.</span><span class="n">respond</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">else</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="n">a</span><span class="o">.</span><span class="n">respond</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If we run it once, and then look at its memory we see three instances, two
+that were created using the <code class="docutils literal notranslate"><span class="pre">default_utility</span></code>, and one actually experienced.
+As usual, if you run this yourself, it may differ in detail since PyIBL models
+are stochastic.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">run_once</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">instances</span><span class="p">()</span>
+<span class="go">+----------+---------+---------+-------------+</span>
+<span class="go">| decision | outcome | created | occurrences |</span>
+<span class="go">+----------+---------+---------+-------------+</span>
+<span class="go">|   safe   |    20   |    1    |     [1]     |</span>
+<span class="go">|  risky   |    20   |    1    |     [1]     |</span>
+<span class="go">|  risky   |    2    |    1    |     [1]     |</span>
+<span class="go">+----------+---------+---------+-------------+</span>
+</pre></div>
+</div>
+<p>Let’s run it ten more times and look again.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">run_once</span><span class="p">()</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">instances</span><span class="p">()</span>
+<span class="go">+----------+---------+---------+-----------------+</span>
+<span class="go">| decision | outcome | created |   occurrences   |</span>
+<span class="go">+----------+---------+---------+-----------------+</span>
+<span class="go">|   safe   |    20   |    1    |       [1]       |</span>
+<span class="go">|  risky   |    20   |    1    |       [1]       |</span>
+<span class="go">|  risky   |    2    |    1    |    [1, 8, 10]   |</span>
+<span class="go">|   safe   |    1    |    2    | [2, 4, 6, 7, 9] |</span>
+<span class="go">|  risky   |    0    |    3    |    [3, 5, 11]   |</span>
+<span class="go">+----------+---------+---------+-----------------+</span>
+</pre></div>
+</div>
+<p>There are now five different instances, but all the actually
+experienced ones have been reinforced two or more times.</p>
+<p>If we want to see how PyIBL uses these values when computing a next
+iteration we can turn on tracing in the agent.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">trace</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">run_once</span><span class="p">()</span>
+
+<span class="go">safe → 2.0721374593470263</span>
+<span class="go">+-------+----------+---------+-----------------+---------+---------------------+---------------------+---------------------+-----------------------+</span>
+<span class="go">|   id  | decision | created |   occurrences   | outcome |   base activation   |   activation noise  |   total activation  | retrieval probability |</span>
+<span class="go">+-------+----------+---------+-----------------+---------+---------------------+---------------------+---------------------+-----------------------+</span>
+<span class="go">| 11827 |   safe   |    1    |       [1]       |    20   | -1.1989476363991853 |  0.5503100777725171 | -0.6486375586266683 |   0.056428287334054   |</span>
+<span class="go">| 11830 |   safe   |    2    | [2, 4, 6, 7, 9] |    1    |  0.7431714932183402 | -0.3959545844998943 |  0.3472169087184459 |   0.943571712665946   |</span>
+<span class="go">+-------+----------+---------+-----------------+---------+---------------------+---------------------+---------------------+-----------------------+</span>
+
+<span class="go">risky → 0.2690180165652046</span>
+<span class="go">+-------+----------+---------+-------------+---------+---------------------+---------------------+---------------------+-----------------------+</span>
+<span class="go">|   id  | decision | created | occurrences | outcome |   base activation   |   activation noise  |   total activation  | retrieval probability |</span>
+<span class="go">+-------+----------+---------+-------------+---------+---------------------+---------------------+---------------------+-----------------------+</span>
+<span class="go">| 11828 |  risky   |    1    |     [1]     |    20   | -1.1989476363991853 |  0.0500297186755688 | -1.1489179177236166 | 0.0020239554902251673 |</span>
+<span class="go">| 11829 |  risky   |    1    |  [1, 8, 10] |    2    |  0.4111940833223344 | -0.1340524465713021 |  0.2771416367510323 |  0.11426945338035062  |</span>
+<span class="go">| 11831 |  risky   |    3    |  [3, 5, 11] |    0    |  0.5372520337343577 |  0.4631063313501445 |  1.0003583650845023 |   0.8837065911294242  |</span>
+<span class="go">+-------+----------+---------+-------------+---------+---------------------+---------------------+---------------------+-----------------------+</span>
+</pre></div>
+</div>
+<p>From this we see PyIBL computing blended values for the two options,
+safe and risky, of 2.072 and 0.269, respectively. For the former, it
+computed the activation of two relevant chunks, resulting in retrieval
+probabilities it used to combine the possible outcomes of 20 and 1,
+though heavily discounting the former because it’s activation is so
+long, because of decay. Similarly for the risky choice, though with
+three instances reflecting three outcomes in the agent’s memory.</p>
+<p>To gain programmatic access to this data we can use the <code class="xref py py-attr docutils literal notranslate"><span class="pre">details</span></code> of an agent.
+Here we run the model one more time and print the result details.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">trace</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">details</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">run_once</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pprint</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">details</span><span class="p">)</span>
+<span class="go">[[OrderedDict([(&#39;decision&#39;, &#39;safe&#39;),</span>
+<span class="go">               (&#39;activations&#39;,</span>
+<span class="go">                [OrderedDict([(&#39;name&#39;, &#39;11827&#39;),</span>
+<span class="go">                              (&#39;creation_time&#39;, 1),</span>
+<span class="go">                              (&#39;attributes&#39;,</span>
+<span class="go">                               ((&#39;_utility&#39;, 20), (&#39;_decision&#39;, &#39;safe&#39;))),</span>
+<span class="go">                              (&#39;references&#39;, (1,)),</span>
+<span class="go">                              (&#39;base_activation&#39;, -1.2424533248940002),</span>
+<span class="go">                              (&#39;activation_noise&#39;, -0.39368759350221544),</span>
+<span class="go">                              (&#39;activation&#39;, -1.6361409183962157),</span>
+<span class="go">                              (&#39;retrieval_probability&#39;, 0.00089874276769121)]),</span>
+<span class="go">                 OrderedDict([(&#39;name&#39;, &#39;11830&#39;),</span>
+<span class="go">                              (&#39;creation_time&#39;, 2),</span>
+<span class="go">                              (&#39;attributes&#39;,</span>
+<span class="go">                               ((&#39;_utility&#39;, 1), (&#39;_decision&#39;, &#39;safe&#39;))),</span>
+<span class="go">                              (&#39;references&#39;, (2, 4, 6, 7, 9, 12)),</span>
+<span class="go">                              (&#39;base_activation&#39;, 1.0719456881845848),</span>
+<span class="go">                              (&#39;activation_noise&#39;, -0.22839940241187714),</span>
+<span class="go">                              (&#39;activation&#39;, 0.8435462857727076),</span>
+<span class="go">                              (&#39;retrieval_probability&#39;, 0.9991012572323088)])]),</span>
+<span class="go">               (&#39;blended&#39;, 1.017076112586133)]),</span>
+<span class="go">  OrderedDict([(&#39;decision&#39;, &#39;risky&#39;),</span>
+<span class="go">               (&#39;activations&#39;,</span>
+<span class="go">                [OrderedDict([(&#39;name&#39;, &#39;11828&#39;),</span>
+<span class="go">                              (&#39;creation_time&#39;, 1),</span>
+<span class="go">                              (&#39;attributes&#39;,</span>
+<span class="go">                               ((&#39;_utility&#39;, 20), (&#39;_decision&#39;, &#39;risky&#39;))),</span>
+<span class="go">                              (&#39;references&#39;, (1,)),</span>
+<span class="go">                              (&#39;base_activation&#39;, -1.2424533248940002),</span>
+<span class="go">                              (&#39;activation_noise&#39;, -0.5746788456816813),</span>
+<span class="go">                              (&#39;activation&#39;, -1.8171321705756815),</span>
+<span class="go">                              (&#39;retrieval_probability&#39;,</span>
+<span class="go">                               0.0015592418318597276)]),</span>
+<span class="go">                 OrderedDict([(&#39;name&#39;, &#39;11829&#39;),</span>
+<span class="go">                              (&#39;creation_time&#39;, 1),</span>
+<span class="go">                              (&#39;attributes&#39;,</span>
+<span class="go">                               ((&#39;_utility&#39;, 2), (&#39;_decision&#39;, &#39;risky&#39;))),</span>
+<span class="go">                              (&#39;references&#39;, (1, 8, 10)),</span>
+<span class="go">                              (&#39;base_activation&#39;, 0.2724966041059383),</span>
+<span class="go">                              (&#39;activation_noise&#39;, 0.11693394549873833),</span>
+<span class="go">                              (&#39;activation&#39;, 0.3894305496046766),</span>
+<span class="go">                              (&#39;retrieval_probability&#39;, 0.800552046743429)]),</span>
+<span class="go">                 OrderedDict([(&#39;name&#39;, &#39;11831&#39;),</span>
+<span class="go">                              (&#39;creation_time&#39;, 3),</span>
+<span class="go">                              (&#39;attributes&#39;,</span>
+<span class="go">                               ((&#39;_utility&#39;, 0), (&#39;_decision&#39;, &#39;risky&#39;))),</span>
+<span class="go">                              (&#39;references&#39;, (3, 5, 11)),</span>
+<span class="go">                              (&#39;base_activation&#39;, 0.31982583502358525),</span>
+<span class="go">                              (&#39;activation_noise&#39;, -0.4245203511568904),</span>
+<span class="go">                              (&#39;activation&#39;, -0.10469451613330516),</span>
+<span class="go">                              (&#39;retrieval_probability&#39;, 0.1978887114247114)])]),</span>
+<span class="go">               (&#39;blended&#39;, 1.6322889301240524)])]]</span>
+</pre></div>
+</div>
+<p>We could use this information to, for example, to write detailed log
+files of many iterations of our model while it runs over thousands of
+iterations.</p>
+</div>
+<div class="section" id="further-examples">
+<h3><a class="toc-backref" href="#id15">Further Examples</a><a class="headerlink" href="#further-examples" title="Permalink to this headline">¶</a></h3>
+<p>More complex examples, many derived from real research projects, can
+be downloaded from the same site as PyIBL itself.</p>
+</div>
+</div>
+<div class="section" id="module-pyibl">
+<span id="reference"></span><h2><a class="toc-backref" href="#id16">Reference</a><a class="headerlink" href="#module-pyibl" title="Permalink to this headline">¶</a></h2>
+<p>PyIBL is an implementation of a subset of Instance Based Learn Theory (IBLT).
+The principle class is Agent, an instance of which is a cognitive entity learning and
+making decisions based on its experience from prior decisions, primarily by calls to its
+<a class="reference internal" href="#pyibl.Agent.choose" title="pyibl.Agent.choose"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Agent.choose()</span></code></a> and <a class="reference internal" href="#pyibl.Agent.respond" title="pyibl.Agent.respond"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Agent.respond()</span></code></a> methods. The decisions an agent is choosing
+between can be further decorated with information about their current state. There are
+facilities for inspecting details of the IBL decision making process programmatically
+facilitating debugging, logging and fine grained control of complex models.</p>
+<dl class="py class">
+<dt id="pyibl.Agent">
+<em class="property">class </em><code class="sig-prename descclassname">pyibl.</code><code class="sig-name descname">Agent</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">attributes</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">noise</span><span class="o">=</span><span class="default_value">0.25</span></em>, <em class="sig-param"><span class="n">decay</span><span class="o">=</span><span class="default_value">0.5</span></em>, <em class="sig-param"><span class="n">temperature</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">mismatch_penalty</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">optimized_learning</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">default_utility</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyibl.Agent" title="Permalink to this definition">¶</a></dt>
+<dd><p>A cognitive entity learning and making decisions based on its experience from prior decisions.
+The main entry point to PyIBL. An Agent has a <em>name</em>, a string, which can be retrieved
+with the <a class="reference internal" href="#pyibl.Agent.name" title="pyibl.Agent.name"><code class="xref py py-attr docutils literal notranslate"><span class="pre">name</span></code></a> property. The name cannot be changed after an agent is created.
+If, when creating an agent, the <em>name</em> argument is not supplied or is <code class="docutils literal notranslate"><span class="pre">None</span></code>, a name
+will be created of the form <code class="docutils literal notranslate"><span class="pre">'Anonymous-Agent-n'</span></code>, where <em>n</em> is a unique integer.</p>
+<p>An <a class="reference internal" href="#pyibl.Agent" title="pyibl.Agent"><code class="xref py py-class docutils literal notranslate"><span class="pre">Agent</span></code></a> also has zero or more <em>attributes</em>, named by strings. The attribute
+names can be retrieved with the <a class="reference internal" href="#pyibl.Agent.attributes" title="pyibl.Agent.attributes"><code class="xref py py-attr docutils literal notranslate"><span class="pre">attributes</span></code></a> property, and also cannot be
+changed after an agent is created. Attribute names must be formed from letters, digits
+and underscore, must begin with a letter, and may not be Python keywords.</p>
+<p>The agent properties <a class="reference internal" href="#pyibl.Agent.noise" title="pyibl.Agent.noise"><code class="xref py py-attr docutils literal notranslate"><span class="pre">noise</span></code></a>, <a class="reference internal" href="#pyibl.Agent.decay" title="pyibl.Agent.decay"><code class="xref py py-attr docutils literal notranslate"><span class="pre">decay</span></code></a>, <a class="reference internal" href="#pyibl.Agent.temperature" title="pyibl.Agent.temperature"><code class="xref py py-attr docutils literal notranslate"><span class="pre">temperature</span></code></a>,
+<a class="reference internal" href="#pyibl.Agent.mismatch_penalty" title="pyibl.Agent.mismatch_penalty"><code class="xref py py-attr docutils literal notranslate"><span class="pre">mismatch_penalty</span></code></a>, <a class="reference internal" href="#pyibl.Agent.optimized_learning" title="pyibl.Agent.optimized_learning"><code class="xref py py-attr docutils literal notranslate"><span class="pre">optimized_learning</span></code></a> and <a class="reference internal" href="#pyibl.Agent.default_utility" title="pyibl.Agent.default_utility"><code class="xref py py-attr docutils literal notranslate"><span class="pre">default_utility</span></code></a> can
+be initialized when creating an Agent.</p>
+<dl class="py attribute">
+<dt id="pyibl.Agent.name">
+<code class="sig-name descname">name</code><a class="headerlink" href="#pyibl.Agent.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of this Agent.
+It is a string, provided when the agent was created, and cannot be changed
+thereafter.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyibl.Agent.attributes">
+<code class="sig-name descname">attributes</code><a class="headerlink" href="#pyibl.Agent.attributes" title="Permalink to this definition">¶</a></dt>
+<dd><p>A tuple of the names of the attributes included in all situations associated with decisions this agent will be asked to make.
+These names are assigned when the agent is created and cannot be
+changed, and are strings. The order of them in the returned
+tuple is the same as that in which they were given when the
+agent was created.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyibl.Agent.choose">
+<code class="sig-name descname">choose</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">choices</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyibl.Agent.choose" title="Permalink to this definition">¶</a></dt>
+<dd><p>Selects which of the <em>choices</em> is expected to result in the largest payoff, and returns it.
+The expected form of the <em>choices</em> depends upon whether or not this <a class="reference internal" href="#pyibl.Agent" title="pyibl.Agent"><code class="xref py py-class docutils literal notranslate"><span class="pre">Agent</span></code></a>
+has any attributes or not. If it does not, each of the <em>choices</em> should be a
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Hashable</span></code> that is not <code class="docutils literal notranslate"><span class="pre">None</span></code>, representing an atomic choice; if any of
+the <em>choices</em> are not hashable or are <code class="docutils literal notranslate"><span class="pre">None</span></code> a <code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code> is raised.</p>
+<p>If this <a class="reference internal" href="#pyibl.Agent" title="pyibl.Agent"><code class="xref py py-class docutils literal notranslate"><span class="pre">Agent</span></code></a> does have attributes (that is, the <em>attributes</em> argument
+was supplied and non-empty when it was created, or, equivalently, the
+<a class="reference internal" href="#pyibl.Agent.attributes" title="pyibl.Agent.attributes"><code class="xref py py-meth docutils literal notranslate"><span class="pre">attributes()</span></code></a> method returns a non-empty tuple), then each of the <em>choices</em>
+can be either a <code class="xref py py-class docutils literal notranslate"><span class="pre">Mapping</span></code>, typically a <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>, mapping attribute
+names to their values, or a <code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>, typically a <code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code> or
+<code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code>, containing attribute values in the order they were declared when
+this <a class="reference internal" href="#pyibl.Agent" title="pyibl.Agent"><code class="xref py py-class docutils literal notranslate"><span class="pre">Agent</span></code></a> was created and would be returned by calling
+<a class="reference internal" href="#pyibl.Agent.attributes" title="pyibl.Agent.attributes"><code class="xref py py-meth docutils literal notranslate"><span class="pre">attributes()</span></code></a>. Attributes not present (either there is no key in the
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Mapping</span></code>, or a <code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code> shorter than the number of attributes)
+have a value of <cite>None</cite>, while values not corresponding to attributes of the
+<a class="reference internal" href="#pyibl.Agent" title="pyibl.Agent"><code class="xref py py-class docutils literal notranslate"><span class="pre">Agent</span></code></a> (either a key in the <code class="xref py py-class docutils literal notranslate"><span class="pre">Mapping</span></code> that does not match an
+attribute name, or a <code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code> longer than the number of attributes) are
+ignored. Whether a <code class="xref py py-class docutils literal notranslate"><span class="pre">Mapping</span></code> or a <code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>, all the attribute
+values must be <code class="xref py py-class docutils literal notranslate"><span class="pre">Hashable</span></code>, and are typically strings or numbers. If any of
+the <em>choices</em> do not have one of these forms a <code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code> is raised.</p>
+<p>In either case, if any pair of the <em>choices</em> duplicate each other, even if of
+different forms (e.g. dictionary versus list), and after adding default <code class="docutils literal notranslate"><span class="pre">None</span></code>
+values and removing ignored values, a <code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code> is raised.</p>
+<p>It is also possible to supply no <em>choices</em>, in which case those used in the most
+recent previous call to this method or <a class="reference internal" href="#pyibl.Agent.choose2" title="pyibl.Agent.choose2"><code class="xref py py-meth docutils literal notranslate"><span class="pre">choose2()</span></code></a> are reused. If there was no
+such previous call since the last time this <a class="reference internal" href="#pyibl.Agent" title="pyibl.Agent"><code class="xref py py-class docutils literal notranslate"><span class="pre">Agent</span></code></a> was <a class="reference internal" href="#pyibl.Agent.reset" title="pyibl.Agent.reset"><code class="xref py py-meth docutils literal notranslate"><span class="pre">reset()</span></code></a> a
+<code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code> is raised.</p>
+<p>For each of the <em>choices</em> this method finds all instances in memory that match,
+and computes their activations at the current time based upon when in the past
+they have been seen, modified by the value of the <a class="reference internal" href="#pyibl.Agent.decay" title="pyibl.Agent.decay"><code class="xref py py-attr docutils literal notranslate"><span class="pre">decay</span></code></a> property, and with
+noise added as controlled by the <a class="reference internal" href="#pyibl.Agent.noise" title="pyibl.Agent.noise"><code class="xref py py-attr docutils literal notranslate"><span class="pre">noise</span></code></a> property. If partial matching has
+been enabled with <a class="reference internal" href="#pyibl.Agent.mismatch_penalty" title="pyibl.Agent.mismatch_penalty"><code class="xref py py-attr docutils literal notranslate"><span class="pre">mismatch_penalty</span></code></a> such matching instances need not match
+exactly, and the similarities modified by the mismatch penalty are subtracted from
+the activations. If partial matching is not enabled only those instances that
+match exactly are consulted. “Exact” matches are based on Python’s <code class="docutils literal notranslate"><span class="pre">==</span></code>
+operator, not <code class="docutils literal notranslate"><span class="pre">is</span></code>. Thus, for example <code class="docutils literal notranslate"><span class="pre">0</span></code>, <code class="docutils literal notranslate"><span class="pre">0.0</span></code> and <code class="docutils literal notranslate"><span class="pre">False</span></code> all match on
+another, as do <code class="docutils literal notranslate"><span class="pre">1</span></code>, <code class="docutils literal notranslate"><span class="pre">1.0</span></code> and <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+<p>Looking at the activations of the whole ensemble of instances matching a choice a
+retrieval probability is computed for each possible outcome, and these are
+combined to arrive at a blended value expected for the choice. This blending
+operation depends upon the value of the <a class="reference internal" href="#pyibl.Agent.temperature" title="pyibl.Agent.temperature"><code class="xref py py-attr docutils literal notranslate"><span class="pre">temperature</span></code></a> property; if none is
+supplied a default is computed based on the value of the <a class="reference internal" href="#pyibl.Agent.noise" title="pyibl.Agent.noise"><code class="xref py py-attr docutils literal notranslate"><span class="pre">noise</span></code></a> parameter.
+The value chosen and returned is that element of <em>choices</em> with the highest
+blended value. In case of a tie one will be chosen at random.</p>
+<p>After a call to <a class="reference internal" href="#pyibl.Agent.choose" title="pyibl.Agent.choose"><code class="xref py py-attr docutils literal notranslate"><span class="pre">choose</span></code></a> a corresponding call must be made to
+<a class="reference internal" href="#pyibl.Agent.respond" title="pyibl.Agent.respond"><code class="xref py py-meth docutils literal notranslate"><span class="pre">respond()</span></code></a> before calling <a class="reference internal" href="#pyibl.Agent.choose" title="pyibl.Agent.choose"><code class="xref py py-meth docutils literal notranslate"><span class="pre">choose()</span></code></a> again, or a <code class="xref py py-exc docutils literal notranslate"><span class="pre">RuntimeError</span></code> will
+be raised.</p>
+<p>Because of noise the results returned by <a class="reference internal" href="#pyibl.Agent.choose" title="pyibl.Agent.choose"><code class="xref py py-attr docutils literal notranslate"><span class="pre">choose</span></code></a> are stochastic the results
+of running the following examples may differ in their details from those shown.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">Agent</span><span class="p">(</span><span class="s2">&quot;Button Pusher&quot;</span><span class="p">,</span> <span class="n">default_utility</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">choose</span><span class="p">(</span><span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="s2">&quot;right&quot;</span><span class="p">)</span>
+<span class="go">&#39;right&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">respond</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">choose</span><span class="p">()</span>
+<span class="go">&#39;left&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">Agent</span><span class="p">(</span><span class="s2">&quot;Pet Purchaser&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">,</span> <span class="s2">&quot;state&quot;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">populate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;parrot&quot;</span><span class="p">,</span> <span class="s2">&quot;dead&quot;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">populate</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;parrot&quot;</span><span class="p">,</span> <span class="s2">&quot;squawking&quot;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">choose</span><span class="p">([</span><span class="s2">&quot;parrot&quot;</span><span class="p">,</span> <span class="s2">&quot;dead&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;parrot&quot;</span><span class="p">,</span> <span class="s2">&quot;squawking&quot;</span><span class="p">])</span>
+<span class="go">[&#39;parrot&#39;, &#39;squawking&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyibl.Agent.choose2">
+<code class="sig-name descname">choose2</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">choices</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyibl.Agent.choose2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Selects which of the <em>choices</em> is expected to result in the largest payoff, and both returns it and data used to arrive at that selection.
+While the comparison of blended values used by <a class="reference internal" href="#pyibl.Agent.choose" title="pyibl.Agent.choose"><code class="xref py py-meth docutils literal notranslate"><span class="pre">choose()</span></code></a> is the appropriate
+process for most models, for some specialized purposes the modeler may wish to
+implement a different decision procedure. This method, when combined with supplying
+a second argment to <a class="reference internal" href="#pyibl.Agent.respond" title="pyibl.Agent.respond"><code class="xref py py-meth docutils literal notranslate"><span class="pre">respond()</span></code></a>, facilitates the construction of such more
+complicated models. See the description of <a class="reference internal" href="#pyibl.Agent.choose" title="pyibl.Agent.choose"><code class="xref py py-meth docutils literal notranslate"><span class="pre">choose()</span></code></a> for information on the
+arguments and so on of this method, as, apart from the second return value, it
+behaves just like <a class="reference internal" href="#pyibl.Agent.choose" title="pyibl.Agent.choose"><code class="xref py py-meth docutils literal notranslate"><span class="pre">choose()</span></code></a>.</p>
+<p>The second return value is a list of named tuples, one for each choice. These
+named tuples have slots for the choice, the blended value, and list of
+retrieval probability descriptions. The slots can be accessed either by index,
+or by the names <code class="docutils literal notranslate"><span class="pre">.choice</span></code>, <code class="docutils literal notranslate"><span class="pre">.blended_value</span></code> and <code class="docutils literal notranslate"><span class="pre">retrieval_probabilities</span></code>.</p>
+<p>The retrieval probability descriptions are themselves named tuples, one for each
+instance consulted in constructing the given choice’s blended value. Each of these
+latter tuples has two slots, one for the utility stored in the instance and the
+other its probability of retrieval. The slots of these tuples can be accessed by
+index or by the names <code class="docutils literal notranslate"><span class="pre">.utility</span></code> and <code class="docutils literal notranslate"><span class="pre">.retrieval_probability</span></code>.</p>
+<p>See the following example which may help clarify this rather complicated
+description.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">Agent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Cheese Shop&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">populate</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="s2">&quot;Tilset&quot;</span><span class="p">,</span> <span class="s2">&quot;Wensleydale&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">choose</span><span class="p">(</span><span class="s2">&quot;Tilset&quot;</span><span class="p">,</span> <span class="s2">&quot;Wensleydale&quot;</span><span class="p">)</span>
+<span class="go">&#39;Tilset&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">respond</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">choice</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">choose2</span><span class="p">(</span><span class="s2">&quot;Tilset&quot;</span><span class="p">,</span> <span class="s2">&quot;Wensleydale&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">choice</span>
+<span class="go">&#39;Wensleydale&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span>
+<span class="go">[BlendingDetails(choice=&#39;Tilset&#39;, blended_value=4.167913364924516,</span>
+<span class="go">                 retrieval_probabilities=[RetrievalProbability(utility=10, retrieval_probability=0.3519903738805018),</span>
+<span class="go">                                          RetrievalProbability(utility=1, retrieval_probability=0.6480096261194982)]),</span>
+<span class="go"> BlendingDetails(choice=&#39;Wensleydale&#39;, blended_value=10.0,</span>
+<span class="go">                 retrieval_probabilities=[RetrievalProbability(utility=10, retrieval_probability=1.0)])]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">choice</span>
+<span class="go">&#39;Tilset&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">blended_value</span>
+<span class="go">4.167913364924516</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">retrieval_probabilities</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">retrieval_probability</span>
+<span class="go">0.6480096261194982</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">&#39;Wensleydale&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+<span class="go">10.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">10</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+<span class="go">1.0</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyibl.Agent.respond">
+<code class="sig-name descname">respond</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">outcome</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">choice</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyibl.Agent.respond" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provide the <em>outcome</em> resulting from the most recent decision selected by <a class="reference internal" href="#pyibl.Agent.choose" title="pyibl.Agent.choose"><code class="xref py py-meth docutils literal notranslate"><span class="pre">choose()</span></code></a> (or <a class="reference internal" href="#pyibl.Agent.choose2" title="pyibl.Agent.choose2"><code class="xref py py-meth docutils literal notranslate"><span class="pre">choose2()</span></code></a>)
+The <em>outcome</em> should be a real number, where larger numbers are considered “better.”
+This results in the creation or reinforcemnt of an instance in memory for the
+decision with the given outcome, and is the fundamental way in which the PyIBL
+model “learns from experience.”</p>
+<p>By default the choice selected by <a class="reference internal" href="#pyibl.Agent.choose" title="pyibl.Agent.choose"><code class="xref py py-meth docutils literal notranslate"><span class="pre">choose()</span></code></a> (or <a class="reference internal" href="#pyibl.Agent.choose2" title="pyibl.Agent.choose2"><code class="xref py py-meth docutils literal notranslate"><span class="pre">choose2()</span></code></a>) is the one
+to which the outcome is attached. In unusual cases, however, the modeler may
+prefer to select a different choice. For example, if using a different decision
+procedure based on the information returned by <a class="reference internal" href="#pyibl.Agent.choose2" title="pyibl.Agent.choose2"><code class="xref py py-meth docutils literal notranslate"><span class="pre">choose2()</span></code></a>, or if performing
+model tracing of an individual human’s behavior on the experiment being modeled.
+To support these unusual cases a second argument may be passed to <a class="reference internal" href="#pyibl.Agent.respond" title="pyibl.Agent.respond"><code class="xref py py-meth docutils literal notranslate"><span class="pre">respond()</span></code></a>,
+which is the choice to actually be made. If it is not one of the choices provided
+in the original call to <a class="reference internal" href="#pyibl.Agent.choose" title="pyibl.Agent.choose"><code class="xref py py-meth docutils literal notranslate"><span class="pre">choose()</span></code></a> or <a class="reference internal" href="#pyibl.Agent.choose2" title="pyibl.Agent.choose2"><code class="xref py py-meth docutils literal notranslate"><span class="pre">choose2()</span></code></a> a <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> is
+raised.</p>
+<p>It is also possible to delay feedback, by calling <a class="reference internal" href="#pyibl.Agent.respond" title="pyibl.Agent.respond"><code class="xref py py-meth docutils literal notranslate"><span class="pre">respond()</span></code></a> without
+arguments, or with the first argument being <code class="docutils literal notranslate"><span class="pre">None</span></code>. This tells the
+<a class="reference internal" href="#pyibl.Agent" title="pyibl.Agent"><code class="xref py py-class docutils literal notranslate"><span class="pre">Agent</span></code></a> to assume it has received feedback equal to that it expected, that
+is, the blended value resulting from past experiences. In this case
+<a class="reference internal" href="#pyibl.Agent.respond" title="pyibl.Agent.respond"><code class="xref py py-meth docutils literal notranslate"><span class="pre">respond()</span></code></a> returns a value, a <code class="xref py py-class docutils literal notranslate"><span class="pre">DelayedRespone</span></code> object, which can be
+used subsequently to update the response.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Delayed feedback is an experimental feature and care should be exercised in
+its use to avoid biologically implausible models.</p>
+</div>
+<p>If there has not been a call to <a class="reference internal" href="#pyibl.Agent.choose" title="pyibl.Agent.choose"><code class="xref py py-meth docutils literal notranslate"><span class="pre">choose()</span></code></a> since the last time <a class="reference internal" href="#pyibl.Agent.respond" title="pyibl.Agent.respond"><code class="xref py py-meth docutils literal notranslate"><span class="pre">respond()</span></code></a>
+was called a <code class="xref py py-exc docutils literal notranslate"><span class="pre">RuntimeError</span></code> is raised. If <em>outcome</em> is neither <code class="docutils literal notranslate"><span class="pre">None</span></code> nor a
+real number a <code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code> is raised.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyibl.Agent.default_utility">
+<code class="sig-name descname">default_utility</code><a class="headerlink" href="#pyibl.Agent.default_utility" title="Permalink to this definition">¶</a></dt>
+<dd><p>The utility, or a function to compute the utility, if there is no matching instance.
+If when <a class="reference internal" href="#pyibl.Agent.choose" title="pyibl.Agent.choose"><code class="xref py py-meth docutils literal notranslate"><span class="pre">choose()</span></code></a> is called, for some choice passed to it there is no
+existing instance that matches the choice the value of this property is consulted.
+Note that an instance added with <a class="reference internal" href="#pyibl.Agent.populate" title="pyibl.Agent.populate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">populate()</span></code></a> counts as matching, and will
+prevent the interrogation of this property. If partial matching
+(<a class="reference internal" href="#pyibl.Agent.mismatch_penalty" title="pyibl.Agent.mismatch_penalty"><code class="xref py py-attr docutils literal notranslate"><span class="pre">mismatch_penalty</span></code></a>) is enabled, any instance that even partially matches a
+choice will prevent the iterrogation of this property.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>It is rarely appropriate to use <a class="reference internal" href="#pyibl.Agent.default_utility" title="pyibl.Agent.default_utility"><code class="xref py py-attr docutils literal notranslate"><span class="pre">default_utility</span></code></a> when partial matching
+is being used. If they are used together the <a class="reference internal" href="#pyibl.Agent.default_utility" title="pyibl.Agent.default_utility"><code class="xref py py-attr docutils literal notranslate"><span class="pre">default_utility</span></code></a> will
+only be applied the first time a relevant choice is made, as all subsequent
+choices will partially match. This generally gives unpredicatable results and
+is rarely useful. Instead, when using partial matching it is usually better
+to explicitly prepopulate appropriate instances using <a class="reference internal" href="#pyibl.Agent.populate" title="pyibl.Agent.populate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">populate()</span></code></a>.</p>
+</div>
+<p>The value of this property may be a <code class="xref py py-class docutils literal notranslate"><span class="pre">Real</span></code>, in which case when needed it is
+simply used as the default utility. If it is not a Real, it is assumed to be a
+function that takes one argument, one of the choices passed to <a class="reference internal" href="#pyibl.Agent.choose" title="pyibl.Agent.choose"><code class="xref py py-meth docutils literal notranslate"><span class="pre">choose()</span></code></a>.
+When a default utility is needed that function will be called, passing the choice
+in question to it, and the value returned, which should be a Real, will be used.
+If at that time the value is not a function of one argument, or it does not return
+a Real, an <code class="xref py py-exc docutils literal notranslate"><span class="pre">RuntimeError</span></code> is raised.</p>
+<p>The <a class="reference internal" href="#pyibl.Agent.default_utility_populates" title="pyibl.Agent.default_utility_populates"><code class="xref py py-attr docutils literal notranslate"><span class="pre">default_utility_populates</span></code></a> property, which is <code class="docutils literal notranslate"><span class="pre">True</span></code> by default,
+controls whether or not an instance is added for each interrogation of
+the attr:<cite>default_utility</cite> property. If an instance is added, it is added
+as by <a class="reference internal" href="#pyibl.Agent.populate_at" title="pyibl.Agent.populate_at"><code class="xref py py-meth docutils literal notranslate"><span class="pre">populate_at()</span></code></a> with a first argument of zero.</p>
+<p>Setting <a class="reference internal" href="#pyibl.Agent.default_utility" title="pyibl.Agent.default_utility"><code class="xref py py-attr docutils literal notranslate"><span class="pre">default_utility</span></code></a> to <code class="docutils literal notranslate"><span class="pre">None</span></code> or <code class="docutils literal notranslate"><span class="pre">False</span></code> (the initial default)
+causes no default utility to be used. In this case, if <a class="reference internal" href="#pyibl.Agent.choose" title="pyibl.Agent.choose"><code class="xref py py-meth docutils literal notranslate"><span class="pre">choose()</span></code></a> is called
+for a decision in a situation for which there is no instance available, an
+<code class="xref py py-exc docutils literal notranslate"><span class="pre">RuntimeError</span></code> will be raised.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyibl.Agent.default_utility_populates">
+<code class="sig-name descname">default_utility_populates</code><a class="headerlink" href="#pyibl.Agent.default_utility_populates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether or not a default utility provided by the <a class="reference internal" href="#pyibl.Agent.default_utility" title="pyibl.Agent.default_utility"><code class="xref py py-attr docutils literal notranslate"><span class="pre">default_utility</span></code></a> property is also entered as an instance in memory.
+This property has no effect if default_utility has been set to <code class="docutils literal notranslate"><span class="pre">None</span></code> or <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyibl.Agent.populate">
+<code class="sig-name descname">populate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">outcome</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">choices</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyibl.Agent.populate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds instances to memory, one for each of the <em>choices</em>, with the given outcome, at the current time, without advancing that time.
+The <em>outcome</em> should be a <code class="xref py py-class docutils literal notranslate"><span class="pre">Real</span></code> number.
+The <em>choices</em> are as described in <a class="reference internal" href="#pyibl.Agent.choose" title="pyibl.Agent.choose"><code class="xref py py-meth docutils literal notranslate"><span class="pre">choose()</span></code></a>.
+Time is a dimensionless quantity, simply a count of the number of choose/respond
+cycles that have occurred since the agent was created or last <a class="reference internal" href="#pyibl.Agent.reset" title="pyibl.Agent.reset"><code class="xref py py-meth docutils literal notranslate"><span class="pre">reset()</span></code></a>.</p>
+<p>This is typically used to enable startup of a model by adding instances before the
+first call to <a class="reference internal" href="#pyibl.Agent.choose" title="pyibl.Agent.choose"><code class="xref py py-meth docutils literal notranslate"><span class="pre">choose()</span></code></a>. When used in this way the timestamp associated with
+this occurrence of the instance will be zero. Subsequent occurrences are possible
+if <a class="reference internal" href="#pyibl.Agent.respond" title="pyibl.Agent.respond"><code class="xref py py-meth docutils literal notranslate"><span class="pre">respond()</span></code></a> is called with the same outcome after <a class="reference internal" href="#pyibl.Agent.choose" title="pyibl.Agent.choose"><code class="xref py py-meth docutils literal notranslate"><span class="pre">choose()</span></code></a> has
+returned the same decision in the same situation, in which case those reinforcing
+occurrences will have later timestamps. An alternative mechanism to facilitate
+sartup of a model is setting the <code class="xref py py-attr docutils literal notranslate"><span class="pre">defaultUtility</span></code> property of the agent.
+While rarely done, a modeler can even combine the two mechanisms, if desired.</p>
+<p>It is also possible to call prepopulate after choose/respond cycles have occurred.
+In this case the instances are added with the current time as the timestamp. This
+is one less than the timestamp that would be used were an instance to be added by
+being experienced as part of a choose/respond cycle instead. Each agent keeps
+internally a clock, the number of choose/respond cycles that have occurred since
+it was created or last <a class="reference internal" href="#pyibl.Agent.reset" title="pyibl.Agent.reset"><code class="xref py py-meth docutils literal notranslate"><span class="pre">reset()</span></code></a>. When <a class="reference internal" href="#pyibl.Agent.choose" title="pyibl.Agent.choose"><code class="xref py py-meth docutils literal notranslate"><span class="pre">choose()</span></code></a> is called it advances
+that clock by one <em>before</em> computing the activations of the existing instances, as
+it must since the activation computation depends upon all experiences having been in
+the past. That advanced clock is the timestamp used when an instance is added or
+reinforced by <a class="reference internal" href="#pyibl.Agent.respond" title="pyibl.Agent.respond"><code class="xref py py-meth docutils literal notranslate"><span class="pre">respond()</span></code></a>. See also <a class="reference internal" href="#pyibl.Agent.populate_at" title="pyibl.Agent.populate_at"><code class="xref py py-meth docutils literal notranslate"><span class="pre">populate_at()</span></code></a>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>In normal use you should only call <a class="reference internal" href="#pyibl.Agent.populate" title="pyibl.Agent.populate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">populate()</span></code></a> before any choose/respond
+cycles. If, for exotic purposes, you do wish to call it after, caution should
+be exercised to avoid biologically implausible models.</p>
+</div>
+<p>Raises a <code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code> if <em>outcome</em> is not a <code class="xref py py-class docutils literal notranslate"><span class="pre">Real</span></code> number, or if any
+of the <em>choices</em> are malformed or duplicates.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyibl.Agent.populate_at">
+<code class="sig-name descname">populate_at</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">outcome</span></em>, <em class="sig-param"><span class="n">when</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">choices</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyibl.Agent.populate_at" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds instances to memory, one for each of the <em>choices</em>, with the given outcome, at the stipulated time.
+The <em>outcome</em> should be a <code class="xref py py-class docutils literal notranslate"><span class="pre">Real</span></code> number.
+The <em>choices</em> are as described in <a class="reference internal" href="#pyibl.Agent.choose" title="pyibl.Agent.choose"><code class="xref py py-meth docutils literal notranslate"><span class="pre">choose()</span></code></a>.
+The time at which the instances are added is given by <em>when</em>, an integer denoting
+the time, a dimensionless quantity advanced by one for each
+<a class="reference internal" href="#pyibl.Agent.choose" title="pyibl.Agent.choose"><code class="xref py py-meth docutils literal notranslate"><span class="pre">choose()</span></code></a>/<a class="reference internal" href="#pyibl.Agent.respond" title="pyibl.Agent.respond"><code class="xref py py-meth docutils literal notranslate"><span class="pre">respond()</span></code></a> cycle.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>In normal use <a class="reference internal" href="#pyibl.Agent.populate_at" title="pyibl.Agent.populate_at"><code class="xref py py-meth docutils literal notranslate"><span class="pre">populate_at()</span></code></a> should not be needed. If, for exotic
+purposes, you do wish to use it, caution should be exercised to avoid
+biologically implausible models.</p>
+</div>
+<p>Raises a <code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code> if <em>outcome</em> is not a number; if <em>when</em> is not an
+integer, or is greater than the current time; or if any of the <em>choices</em> are
+malformed or duplicates.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyibl.Agent.reset">
+<code class="sig-name descname">reset</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">preserve_prepopulated</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">optimized_learning</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyibl.Agent.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Erases this agent’s memory and resets its time to zero.
+If <em>preserve_prepopulated</em> is false it delets all the instances from this agent;
+if it is true it deletes all those not created at time zero. IBLT parameters such
+as <a class="reference internal" href="#pyibl.Agent.noise" title="pyibl.Agent.noise"><code class="xref py py-attr docutils literal notranslate"><span class="pre">noise</span></code></a> and <a class="reference internal" href="#pyibl.Agent.decay" title="pyibl.Agent.decay"><code class="xref py py-attr docutils literal notranslate"><span class="pre">decay</span></code></a> are not affected. Any prepopulated instances,
+including those created automatically if a <code class="xref py py-attr docutils literal notranslate"><span class="pre">defaultUtility</span></code> is provided and
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">defaultUtilityPopulates</span></code> is true are removed, but the settings of those
+properties are not altered.</p>
+<p>If <em>optimized_learning</em> is supplied and is <code class="docutils literal notranslate"><span class="pre">True</span></code> or <code class="docutils literal notranslate"><span class="pre">False</span></code> it sets the
+value of <a class="reference internal" href="#pyibl.Agent.optimized_learning" title="pyibl.Agent.optimized_learning"><code class="xref py py-attr docutils literal notranslate"><span class="pre">optimized_learning</span></code></a> for this <a class="reference internal" href="#pyibl.Agent" title="pyibl.Agent"><code class="xref py py-class docutils literal notranslate"><span class="pre">Agent</span></code></a>. If it is not supplied
+or is <code class="docutils literal notranslate"><span class="pre">None</span></code> the current value of <a class="reference internal" href="#pyibl.Agent.optimized_learning" title="pyibl.Agent.optimized_learning"><code class="xref py py-attr docutils literal notranslate"><span class="pre">optimized_learning</span></code></a> is not changed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyibl.Agent.time">
+<code class="sig-name descname">time</code><a class="headerlink" href="#pyibl.Agent.time" title="Permalink to this definition">¶</a></dt>
+<dd><p>This agent’s current time.
+Time in PyIBL is a dimensionless quantity, simply counting the number of
+choose/respond cycles that have occurred since the Memory was last <a class="reference internal" href="#pyibl.Agent.reset" title="pyibl.Agent.reset"><code class="xref py py-meth docutils literal notranslate"><span class="pre">reset()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyibl.Agent.noise">
+<code class="sig-name descname">noise</code><a class="headerlink" href="#pyibl.Agent.noise" title="Permalink to this definition">¶</a></dt>
+<dd><p>The amount of noise to add during instance activation computation.
+This is typically a positive, possibly floating point, number between about 0.1 and 1.5.
+It defaults to 0.25.
+If explicitly zero, no noise is added during activation computation.
+If set to <code class="docutils literal notranslate"><span class="pre">None</span></code> it reverts the value to its default, 0.25.
+If an explicit <a class="reference internal" href="#pyibl.Agent.temperature" title="pyibl.Agent.temperature"><code class="xref py py-attr docutils literal notranslate"><span class="pre">temperature</span></code></a> is not set, the value of noise is also used
+to compute a default temperature for the blending operation on result utilities.
+Attempting to set <a class="reference internal" href="#pyibl.Agent.noise" title="pyibl.Agent.noise"><code class="xref py py-attr docutils literal notranslate"><span class="pre">noise</span></code></a> to a negative number raises a <code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyibl.Agent.decay">
+<code class="sig-name descname">decay</code><a class="headerlink" href="#pyibl.Agent.decay" title="Permalink to this definition">¶</a></dt>
+<dd><p>Controls the rate at which activation for previously experienced instances in memory decay with the passage of time.
+Time in this sense is dimensionless, and simply the number of choose/respond cycles that have occurred since the
+agent was created or last <a class="reference internal" href="#pyibl.Agent.reset" title="pyibl.Agent.reset"><code class="xref py py-meth docutils literal notranslate"><span class="pre">reset()</span></code></a>.
+The <a class="reference internal" href="#pyibl.Agent.decay" title="pyibl.Agent.decay"><code class="xref py py-attr docutils literal notranslate"><span class="pre">decay</span></code></a> is typically between about 0.1 to about 10.
+The default value is 0.5. If zero memory does not decay.
+If set to <code class="docutils literal notranslate"><span class="pre">None</span></code> it reverts the value to its default, 0.5.
+Attempting to set it to a negative number raises a <code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code>.
+It must be less one 1 if this agent’s <a class="reference internal" href="#pyibl.Agent.optimized_learning" title="pyibl.Agent.optimized_learning"><code class="xref py py-attr docutils literal notranslate"><span class="pre">optimized_learning</span></code></a> parameter is set.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyibl.Agent.temperature">
+<code class="sig-name descname">temperature</code><a class="headerlink" href="#pyibl.Agent.temperature" title="Permalink to this definition">¶</a></dt>
+<dd><p>The temperature parameter used for blending values.
+If <code class="docutils literal notranslate"><span class="pre">None</span></code>, the default, the square root of 2 times the value of
+<a class="reference internal" href="#pyibl.Agent.noise" title="pyibl.Agent.noise"><code class="xref py py-attr docutils literal notranslate"><span class="pre">noise</span></code></a> will be used. If the temperature is too close to zero, which
+can also happen if it is <code class="docutils literal notranslate"><span class="pre">None</span></code> and the <a class="reference internal" href="#pyibl.Agent.noise" title="pyibl.Agent.noise"><code class="xref py py-attr docutils literal notranslate"><span class="pre">noise</span></code></a> is too low, or negative, a
+<code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code> is raised.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyibl.Agent.mismatch_penalty">
+<code class="sig-name descname">mismatch_penalty</code><a class="headerlink" href="#pyibl.Agent.mismatch_penalty" title="Permalink to this definition">¶</a></dt>
+<dd><p>The mismatch penalty applied to partially matching values when computing activations.
+If <code class="docutils literal notranslate"><span class="pre">None</span></code> no partial matching is done.
+Otherwise any defined similarity functions (see <a class="reference internal" href="#pyibl.similarity" title="pyibl.similarity"><code class="xref py py-func docutils literal notranslate"><span class="pre">similarity()</span></code></a>) are called as necessary, and
+the resulting values are multiplied by the mismatch penalty and subtracted
+from the activation. For any attributes and decisions for which similarity
+functions are not defined only instances matching exactly on these attributes or
+decisions are considered.</p>
+<p>Attempting to set this parameter to a value other than <code class="docutils literal notranslate"><span class="pre">None</span></code> or a real number
+raises a <code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyibl.Agent.optimized_learning">
+<code class="sig-name descname">optimized_learning</code><a class="headerlink" href="#pyibl.Agent.optimized_learning" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether or not this :class:”<cite>Agent</cite> uses the optimized_learning approximation when computing instance activations.
+This can only be changed for an <a class="reference internal" href="#pyibl.Agent" title="pyibl.Agent"><code class="xref py py-class docutils literal notranslate"><span class="pre">Agent</span></code></a> by calling <a class="reference internal" href="#pyibl.Agent.reset" title="pyibl.Agent.reset"><code class="xref py py-meth docutils literal notranslate"><span class="pre">reset()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyibl.Agent.instances">
+<code class="sig-name descname">instances</code><span class="sig-paren">(</span><em class="sig-param">file=&lt;_io.TextIOWrapper name='&lt;stdout&gt;' mode='w' encoding='utf-8'&gt;</em>, <em class="sig-param">pretty=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pyibl.Agent.instances" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prints or returns all the instances currently stored in this <a class="reference internal" href="#pyibl.Agent" title="pyibl.Agent"><code class="xref py py-class docutils literal notranslate"><span class="pre">Agent</span></code></a>.
+If <em>file</em> is <code class="docutils literal notranslate"><span class="pre">None</span></code> a list of dictionaries is returned, each corresponding
+to an instance. If <em>file</em> is a string it is taken as a file name, which is opened
+for writing, and the results printed thereto; otherwise <em>file</em> is assumed to be
+an open, writable <code class="docutils literal notranslate"><span class="pre">file</span></code>. By default the file is standard out, typically
+resulting in the instances being printed to the console.</p>
+<p>When printing to a file if <em>pretty</em> is true, the default, a format intended for
+reading by humans is used. Otherwise comma separated values (CSV) format, more
+suitable for importing into spreadsheets, numpy, and the like, is used.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyibl.Agent.details">
+<code class="sig-name descname">details</code><a class="headerlink" href="#pyibl.Agent.details" title="Permalink to this definition">¶</a></dt>
+<dd><p>A <code class="xref py py-class docutils literal notranslate"><span class="pre">MutableSequence</span></code> into which details of this Agent’s internal computations will be added.
+If <code class="docutils literal notranslate"><span class="pre">None</span></code>, the default, such details are not accumulated. It can be explicitly
+set to a <code class="xref py py-class docutils literal notranslate"><span class="pre">MutableSequence</span></code> of the modeler’s choice, typically a list, into
+which details are accumulated. Setting it to <code class="docutils literal notranslate"><span class="pre">True</span></code> sets the value to a fresh,
+empty list, whose value can be ascertained by consulting the value of
+<a class="reference internal" href="#pyibl.Agent.details" title="pyibl.Agent.details"><code class="xref py py-attr docutils literal notranslate"><span class="pre">details</span></code></a>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>In complex models, or models with many iterations, the <code class="docutils literal notranslate"><span class="pre">details</span></code> can gather
+a lot of information quickly. It is often best to <code class="docutils literal notranslate"><span class="pre">clear()</span></code> or otherwise
+reset the <code class="docutils literal notranslate"><span class="pre">details</span></code> frequently.</p>
+</div>
+<p>A <code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code> is raised if an attempt is made to set its value to anything
+other than <code class="docutils literal notranslate"><span class="pre">None</span></code>, <code class="docutils literal notranslate"><span class="pre">True</span></code> or a <code class="xref py py-class docutils literal notranslate"><span class="pre">MutableSequence</span></code>.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">Agent</span><span class="p">(</span><span class="n">default_utility</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">choose</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">)</span>
+<span class="go">&#39;c&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">respond</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">details</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">choose</span><span class="p">()</span>
+<span class="go">&#39;a&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pprint</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">details</span><span class="p">,</span> <span class="n">sort_dicts</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">[[{&#39;decision&#39;: &#39;a&#39;,</span>
+<span class="go">   &#39;activations&#39;: [{&#39;name&#39;: &#39;0000&#39;,</span>
+<span class="go">                    &#39;creation_time&#39;: 0,</span>
+<span class="go">                    &#39;attributes&#39;: ((&#39;_utility&#39;, 10), (&#39;_decision&#39;, &#39;a&#39;)),</span>
+<span class="go">                    &#39;references&#39;: (0,),</span>
+<span class="go">                    &#39;base_activation&#39;: -0.3465735902799726,</span>
+<span class="go">                    &#39;activation_noise&#39;: -0.1925212278297397,</span>
+<span class="go">                    &#39;activation&#39;: -0.5390948181097123,</span>
+<span class="go">                    &#39;retrieval_probability&#39;: 1.0}],</span>
+<span class="go">   &#39;blended&#39;: 10.0},</span>
+<span class="go">  {&#39;decision&#39;: &#39;b&#39;,</span>
+<span class="go">   &#39;activations&#39;: [{&#39;name&#39;: &#39;0001&#39;,</span>
+<span class="go">                    &#39;creation_time&#39;: 0,</span>
+<span class="go">                    &#39;attributes&#39;: ((&#39;_utility&#39;, 10), (&#39;_decision&#39;, &#39;b&#39;)),</span>
+<span class="go">                    &#39;references&#39;: (0,),</span>
+<span class="go">                    &#39;base_activation&#39;: -0.3465735902799726,</span>
+<span class="go">                    &#39;activation_noise&#39;: -0.21036659990743722,</span>
+<span class="go">                    &#39;activation&#39;: -0.5569401901874098,</span>
+<span class="go">                    &#39;retrieval_probability&#39;: 1.0}],</span>
+<span class="go">   &#39;blended&#39;: 10.0},</span>
+<span class="go">  {&#39;decision&#39;: &#39;c&#39;,</span>
+<span class="go">   &#39;activations&#39;: [{&#39;name&#39;: &#39;0002&#39;,</span>
+<span class="go">                    &#39;creation_time&#39;: 0,</span>
+<span class="go">                    &#39;attributes&#39;: ((&#39;_utility&#39;, 10), (&#39;_decision&#39;, &#39;c&#39;)),</span>
+<span class="go">                    &#39;references&#39;: (0,),</span>
+<span class="go">                    &#39;base_activation&#39;: -0.3465735902799726,</span>
+<span class="go">                    &#39;activation_noise&#39;: -0.0970213443277114,</span>
+<span class="go">                    &#39;activation&#39;: -0.44359493460768396,</span>
+<span class="go">                    &#39;retrieval_probability&#39;: 0.16296805894917318},</span>
+<span class="go">                   {&#39;name&#39;: &#39;0003&#39;,</span>
+<span class="go">                    &#39;creation_time&#39;: 1,</span>
+<span class="go">                    &#39;attributes&#39;: ((&#39;_utility&#39;, 5), (&#39;_decision&#39;, &#39;c&#39;)),</span>
+<span class="go">                    &#39;references&#39;: (1,),</span>
+<span class="go">                    &#39;base_activation&#39;: 0.0,</span>
+<span class="go">                    &#39;activation_noise&#39;: 0.1349273092778319,</span>
+<span class="go">                    &#39;activation&#39;: 0.1349273092778319,</span>
+<span class="go">                    &#39;retrieval_probability&#39;: 0.8370319410508268}],</span>
+<span class="go">   &#39;blended&#39;: 5.814840294745866}]]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyibl.Agent.trace">
+<code class="sig-name descname">trace</code><a class="headerlink" href="#pyibl.Agent.trace" title="Permalink to this definition">¶</a></dt>
+<dd><p>A boolean which, if <code class="docutils literal notranslate"><span class="pre">True</span></code>, causes the <a class="reference internal" href="#pyibl.Agent" title="pyibl.Agent"><code class="xref py py-class docutils literal notranslate"><span class="pre">Agent</span></code></a> to print details of its computations to standard output.
+Intended for use as a tool for debugging models. By default it is <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+<p>The output is divided into the blocks, the first line of which describes the
+choice being described and the blended value of its outcome. This is followed by
+a tabular description of various intermediate values used to arrive at this
+blended value.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">Agent</span><span class="p">(</span><span class="n">default_utility</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">choose</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">)</span>
+<span class="go">&#39;a&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">respond</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">choose</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">)</span>
+<span class="go">&#39;c&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">respond</span><span class="p">(</span><span class="mf">7.2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">choose</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">)</span>
+<span class="go">&#39;b&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">respond</span><span class="p">(</span><span class="mf">2.3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">choose</span><span class="p">()</span>
+<span class="go">&#39;a&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">respond</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">trace</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">choose</span><span class="p">()</span>
+
+<span class="go">a → 5.7482098963642425</span>
+<span class="go">+------+----------+---------+-------------+---------+---------------------+---------------------+----------------------+-----------------------+</span>
+<span class="go">|  id  | decision | created | occurrences | outcome |   base activation   |   activation noise  |   total activation   | retrieval probability |</span>
+<span class="go">+------+----------+---------+-------------+---------+---------------------+---------------------+----------------------+-----------------------+</span>
+<span class="go">| 0022 |    a     |    0    |     [0]     |    10   | -0.6931471805599453 |  0.2696498251765441 | -0.42349735538340116 |  0.14964197927284847  |</span>
+<span class="go">| 0025 |    a     |    1    |    [0, 4]   |    5    |  0.4054651081081644 | -0.2146946217750441 |  0.1907704863331203  |   0.8503580207271516  |</span>
+<span class="go">+------+----------+---------+-------------+---------+---------------------+---------------------+----------------------+-----------------------+</span>
+
+<span class="go">b → 2.8892224885373707</span>
+<span class="go">+------+----------+---------+-------------+---------+---------------------+---------------------+---------------------+-----------------------+</span>
+<span class="go">|  id  | decision | created | occurrences | outcome |   base activation   |   activation noise  |   total activation  | retrieval probability |</span>
+<span class="go">+------+----------+---------+-------------+---------+---------------------+---------------------+---------------------+-----------------------+</span>
+<span class="go">| 0023 |    b     |    0    |     [0]     |    10   | -0.6931471805599453 | 0.01639160687781119 | -0.6767555736821341 |  0.07652240110874947  |</span>
+<span class="go">| 0027 |    b     |    3    |     [3]     |   2.3   | -0.3465735902799726 |  0.5503650166906361 |  0.2037914264106635 |   0.9234775988912505  |</span>
+<span class="go">+------+----------+---------+-------------+---------+---------------------+---------------------+---------------------+-----------------------+</span>
+
+<span class="go">c → 7.442068460676917</span>
+<span class="go">+------+----------+---------+-------------+---------+---------------------+----------------------+---------------------+-----------------------+</span>
+<span class="go">|  id  | decision | created | occurrences | outcome |   base activation   |   activation noise   |   total activation  | retrieval probability |</span>
+<span class="go">+------+----------+---------+-------------+---------+---------------------+----------------------+---------------------+-----------------------+</span>
+<span class="go">| 0024 |    c     |    0    |     [0]     |    10   | -0.6931471805599453 |  -0.787690810308673  | -1.4808379908686184 |  0.08645302167032752  |</span>
+<span class="go">| 0026 |    c     |    2    |     [2]     |   7.2   | -0.5493061443340549 | -0.09794712508874652 | -0.6472532694228014 |   0.9135469783296726  |</span>
+<span class="go">+------+----------+---------+-------------+---------+---------------------+----------------------+---------------------+-----------------------+</span>
+
+<span class="go">&#39;c&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="pyibl.similarity">
+<code class="sig-prename descclassname">pyibl.</code><code class="sig-name descname">similarity</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">function</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">attributes</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyibl.similarity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a function to compute the similarity of attribute values that are not equal.
+The <em>attributes</em> are names of attributes of any <a class="reference internal" href="#pyibl.Agent" title="pyibl.Agent"><code class="xref py py-class docutils literal notranslate"><span class="pre">Agent</span></code></a>. If called with no
+<em>attributes</em> the <em>function</em> will be applied to the choices of any <a class="reference internal" href="#pyibl.Agent" title="pyibl.Agent"><code class="xref py py-class docutils literal notranslate"><span class="pre">Agent</span></code></a> that
+has no attributes. If <em>attributes</em> contains names not acceptable as attribute names
+a <code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code> is raised.</p>
+<p>The similarity value returned should be a real number between zero and one,
+inclusive. If, when called, the function returns a number outside that range a
+warning will be printed and the value will be modified to be zero (if negative) or
+one (if greater than one). If, when the similarity function is called, the return
+value is not a real number a <code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code> is raised.</p>
+<p>Similarity functions are only called when the <cite>Agent</cite> has a <code class="xref py py-attr docutils literal notranslate"><span class="pre">mismatch_penalty</span></code>
+specified.
+When a similarity function is called it is passed two arguments, attribute
+values to compare.
+The function should be commutative; that is, if called with the same arguments
+in the reverse order, it should return the same value.
+It should also be stateless, always returning the same values if passed
+the same arguments.
+If either of these constraints is violated no error is raised, but the results
+will, in most cases, be meaningless.</p>
+<p>if <code class="docutils literal notranslate"><span class="pre">True</span></code> is passed as the value of <em>function</em> a default similarity function is
+is used which returns one if its two arguments are <code class="docutils literal notranslate"><span class="pre">==</span></code> and zero otherwise.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">None</span></code> is passed as the value of <em>function</em> the similarity
+function(s) for the specified attributes are cleared.</p>
+<p>In the following examples the height and width are assumed to range from zero to
+ten, and similarity of either is computed linearly, as the difference between
+them normalized by the maximum length of ten. The colors pink and red are considered
+50% similar, and all other color pairs are similar only if identical.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">similarity</span><span class="p">(</span><span class="k">lambda</span> <span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">:</span> <span class="mi">1</span> <span class="o">-</span> <span class="nb">abs</span><span class="p">((</span><span class="n">v1</span> <span class="o">-</span> <span class="n">v2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">10</span><span class="p">),</span> <span class="s2">&quot;height&quot;</span><span class="p">,</span> <span class="s2">&quot;width&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">color_similarity</span><span class="p">(</span><span class="n">c1</span><span class="p">,</span> <span class="n">c2</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">if</span> <span class="n">c1</span> <span class="o">==</span> <span class="n">c2</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="mi">1</span>
+<span class="gp">... </span>    <span class="k">elif</span> <span class="n">c1</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="s2">&quot;pink&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">c2</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="s2">&quot;pink&quot;</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="mf">0.5</span>
+<span class="gp">... </span>    <span class="k">else</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="mi">0</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">similarity</span><span class="p">(</span><span class="n">color_similarity</span><span class="p">,</span> <span class="s2">&quot;color&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pyibl.positive_linear_similarity">
+<code class="sig-prename descclassname">pyibl.</code><code class="sig-name descname">positive_linear_similarity</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyibl.positive_linear_similarity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a similarity value of two positive <code class="xref py py-class docutils literal notranslate"><span class="pre">Real</span></code> numbers, scaled linearly by the larger of them.
+If <em>x</em> and <em>y</em> are equal the value is one, and otherwise a positive float less than one
+that gets smaller the greater the difference between <em>x</em> and <em>y</em>.</p>
+<p>If either <em>x</em> or <em>y</em> is not positive a <code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code> is raised.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">positive_linear_similarity</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="go">0.5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">positive_linear_similarity</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="go">0.5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">positive_linear_similarity</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="go">0.09999999999999998</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">positive_linear_similarity</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="go">0.09999999999999998</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">positive_linear_similarity</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2000</span><span class="p">)</span>
+<span class="go">0.0004999999999999449</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">positive_linear_similarity</span><span class="p">(</span><span class="mi">1999</span><span class="p">,</span> <span class="mi">2000</span><span class="p">)</span>
+<span class="go">0.9995</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">positive_linear_similarity</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">positive_linear_similarity</span><span class="p">(</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.002</span><span class="p">)</span>
+<span class="go">0.5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">positive_linear_similarity</span><span class="p">(</span><span class="mf">10.001</span><span class="p">,</span> <span class="mf">10.002</span><span class="p">)</span>
+<span class="go">0.9999000199960006</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pyibl.positive_quadratic_similarity">
+<code class="sig-prename descclassname">pyibl.</code><code class="sig-name descname">positive_quadratic_similarity</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyibl.positive_quadratic_similarity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a similarity value of two positive <code class="xref py py-class docutils literal notranslate"><span class="pre">Real</span></code> numbers, scaled quadratically by the larger of them.
+If <em>x</em> and <em>y</em> are equal the value is one, and otherwise a positive float less than one
+that gets smaller the greater the difference between <em>x</em> and <em>y</em>.</p>
+<p>If either <em>x</em> or <em>y</em> is not positive a <code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code> is raised.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">positive_quadratic_similarity</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="go">0.25</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">positive_quadratic_similarity</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="go">0.25</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">positive_quadratic_similarity</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="go">0.009999999999999995</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">positive_quadratic_similarity</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="go">0.009999999999999995</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">positive_quadratic_similarity</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2000</span><span class="p">)</span>
+<span class="go">2.4999999999994493e-07</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">positive_quadratic_similarity</span><span class="p">(</span><span class="mi">1999</span><span class="p">,</span> <span class="mi">2000</span><span class="p">)</span>
+<span class="go">0.9990002500000001</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">positive_quadratic_similarity</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">positive_quadratic_similarity</span><span class="p">(</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.002</span><span class="p">)</span>
+<span class="go">0.25</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">positive_quadratic_similarity</span><span class="p">(</span><span class="mf">10.001</span><span class="p">,</span> <span class="mf">10.002</span><span class="p">)</span>
+<span class="go">0.9998000499880025</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pyibl.bounded_linear_similarity">
+<code class="sig-prename descclassname">pyibl.</code><code class="sig-name descname">bounded_linear_similarity</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">minimum</span></em>, <em class="sig-param"><span class="n">maximum</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyibl.bounded_linear_similarity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a function of two arguments that returns a similarity value reflecting a linear scale between <em>minimum</em> and <em>maximum</em>.
+The two arguments to the function returned should be <code class="xref py py-class docutils literal notranslate"><span class="pre">Real</span></code> numbers between
+<em>minimum</em> and <em>maximum</em>, inclusive. If the two arguments to the function returned are
+equal they are maximally similar, and one is returned. If the absolute value of their
+difference is as large as possible, they are maximally different, and zero is returned.
+Otherwise a scaled value on a linear scale between these two extrema, measuring the
+magnitude of the difference between the arguments to the returned function is used, a
+value between zero and one being returned.</p>
+<p>Raises a <code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code> if either <em>minimum</em> or <em>maximum</em> is not a Real number, or if
+<em>minimum</em> is not less than <em>maximum</em>.</p>
+<p>When the returned function is called if either of its arguments is not a Real number a
+<code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code> is then raised. If either of those arguments is less than <em>minimum</em>,
+or greater than <em>maximum</em>, a warning is issued, and either <em>minimum</em> or <em>maximum</em>,
+respectively, is instead used as the argument’s value.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">bounded_linear_similarity</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="go">0.5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+<span class="go">0.9</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="go">0.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="go">1.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sys</span><span class="o">.</span><span class="n">float_info</span><span class="o">.</span><span class="n">epsilon</span>
+<span class="go">2.220446049250313e-16</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span>
+<span class="go">0.9999999999999999</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pyibl.bounded_quadratic_similarity">
+<code class="sig-prename descclassname">pyibl.</code><code class="sig-name descname">bounded_quadratic_similarity</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">minimum</span></em>, <em class="sig-param"><span class="n">maximum</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyibl.bounded_quadratic_similarity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a function of two arguments that returns a similarity value reflecting a quadratic scale between <em>minimum</em> and <em>maximum</em>.
+Both arguments to the function returned should be <code class="xref py py-class docutils literal notranslate"><span class="pre">Real</span></code> numbers between <em>minimum</em>
+and <em>maximum</em>, inclusive. If the two arguments to the function returned are equal they are
+maximally similar, and one is returned. If the absolute value of their difference is as
+large as possible, they are maximally different, and zero is returned. Otherwise a scaled
+value on a quadratic scale between these two extrema, measuring the magnitude of the
+difference between the arguments to the returned function is used, a value between zero
+and one being returned.</p>
+<p>Raises a <code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code> if either <em>minimum</em> or <em>maximum</em> is not a Real number, or if
+<em>minimum</em> is not less than <em>maximum</em>.</p>
+<p>When the returned function is called if either of its arguments is not a Real number a
+<code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code> is then raised. If either of those arguments is less than <em>minimum</em>,
+or greater than <em>maximum</em>, a warning is issued, and either <em>minimum</em> or <em>maximum</em>,
+respectively, is instead used as the argument’s value.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">bounded_quadratic_similarity</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="go">0.25</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+<span class="go">0.81</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="go">0.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="go">1.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sys</span><span class="o">.</span><span class="n">float_info</span><span class="o">.</span><span class="n">epsilon</span>
+<span class="go">2.220446049250313e-16</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span>
+<span class="go">0.9999999999999998</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyibl.DelayedResponse">
+<em class="property">class </em><code class="sig-prename descclassname">pyibl.</code><code class="sig-name descname">DelayedResponse</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">agent</span></em>, <em class="sig-param"><span class="n">attributes</span></em>, <em class="sig-param"><span class="n">expectation</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyibl.DelayedResponse" title="Permalink to this definition">¶</a></dt>
+<dd><p>A representation of an intermediate state of the computation of a decision, as returned from <code class="xref py py-meth docutils literal notranslate"><span class="pre">respond()</span></code> called with no arguments.</p>
+<dl class="py attribute">
+<dt id="pyibl.DelayedResponse.is_resolved">
+<code class="sig-name descname">is_resolved</code><a class="headerlink" href="#pyibl.DelayedResponse.is_resolved" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether or not ground truth feedback to the <a class="reference internal" href="#pyibl.Agent" title="pyibl.Agent"><code class="xref py py-class docutils literal notranslate"><span class="pre">Agent</span></code></a> regarding this decision has yet been delivered by the user.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyibl.DelayedResponse.outcome">
+<code class="sig-name descname">outcome</code><a class="headerlink" href="#pyibl.DelayedResponse.outcome" title="Permalink to this definition">¶</a></dt>
+<dd><p>The most recent response learned by the <a class="reference internal" href="#pyibl.Agent" title="pyibl.Agent"><code class="xref py py-class docutils literal notranslate"><span class="pre">Agent</span></code></a> for this decision.
+When <a class="reference internal" href="#pyibl.DelayedResponse.is_resolved" title="pyibl.DelayedResponse.is_resolved"><code class="xref py py-attr docutils literal notranslate"><span class="pre">is_resolved</span></code></a> is <code class="docutils literal notranslate"><span class="pre">False</span></code> this will be the reward expected by the
+<a class="reference internal" href="#pyibl.Agent" title="pyibl.Agent"><code class="xref py py-class docutils literal notranslate"><span class="pre">Agent</span></code></a> when the decision was made. After it has been resolved by calling
+<a class="reference internal" href="#pyibl.DelayedResponse.update" title="pyibl.DelayedResponse.update"><code class="xref py py-meth docutils literal notranslate"><span class="pre">update()</span></code></a>, delivering the ground truth reward, this will be that real value.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyibl.DelayedResponse.expectation">
+<code class="sig-name descname">expectation</code><a class="headerlink" href="#pyibl.DelayedResponse.expectation" title="Permalink to this definition">¶</a></dt>
+<dd><p>The expected value learned when this <code class="xref py py-class docutils literal notranslate"><span class="pre">DelayedReponse</span></code> was created.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyibl.DelayedResponse.update">
+<code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">outcome</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyibl.DelayedResponse.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Replaces current reward learned, either expected or ground truth, by a new ground truth value.</p>
+<p>The <em>outcome</em> is a real number. Typically this value replaces that learned when
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">respond()</span></code> was called, though it
+might instead replace the value supplied by an earlier call to <a class="reference internal" href="#pyibl.DelayedResponse.update" title="pyibl.DelayedResponse.update"><code class="xref py py-meth docutils literal notranslate"><span class="pre">update()</span></code></a>.
+It is always learned at the time of the original call to <code class="xref py py-meth docutils literal notranslate"><span class="pre">respond()</span></code>.</p>
+<p>The most recent previous value of the learned reward, either the expected value,
+or that set by a previous call of <a class="reference internal" href="#pyibl.DelayedResponse.update" title="pyibl.DelayedResponse.update"><code class="xref py py-meth docutils literal notranslate"><span class="pre">update()</span></code></a>, is returned.</p>
+<p>Raises a <code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code> if <em>outcome</em> is not a real number.</p>
+<p>Because of noise the results returned by <code class="xref py py-attr docutils literal notranslate"><span class="pre">choose</span></code> are stochastic the results
+of running the following examples will differ in their details from those shown.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">Agent</span><span class="p">(</span><span class="n">default_utility</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">choose</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">)</span>
+<span class="go">&#39;b&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">respond</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">choose</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">)</span>
+<span class="go">&#39;a&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">respond</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">choose</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">)</span>
+<span class="go">&#39;a&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">respond</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">choose</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">)</span>
+<span class="go">&#39;a&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">respond</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">instances</span><span class="p">()</span>
+<span class="go">+----------+-------------------+---------+-------------+</span>
+<span class="go">| decision |      outcome      | created | occurrences |</span>
+<span class="go">+----------+-------------------+---------+-------------+</span>
+<span class="go">|    a     |         10        |    0    |     [0]     |</span>
+<span class="go">|    b     |         10        |    0    |     [0]     |</span>
+<span class="go">|    b     |         2         |    1    |     [1]     |</span>
+<span class="go">|    a     |         3         |    2    |     [2]     |</span>
+<span class="go">|    a     | 8.440186635799552 |    3    |     [3]     |</span>
+<span class="go">|    a     |         7         |    4    |     [4]     |</span>
+<span class="go">+----------+-------------------+---------+-------------+</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">8.440186635799552</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">instances</span><span class="p">()</span>
+<span class="go">+----------+---------+---------+-------------+</span>
+<span class="go">| decision | outcome | created | occurrences |</span>
+<span class="go">+----------+---------+---------+-------------+</span>
+<span class="go">|    a     |    10   |    0    |     [0]     |</span>
+<span class="go">|    b     |    10   |    0    |     [0]     |</span>
+<span class="go">|    b     |    2    |    1    |     [1]     |</span>
+<span class="go">|    a     |    3    |    2    |     [2]     |</span>
+<span class="go">|    a     |    1    |    3    |     [3]     |</span>
+<span class="go">|    a     |    7    |    4    |     [4]     |</span>
+<span class="go">+----------+---------+---------+-------------+</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="internals">
+<h2><a class="toc-backref" href="#id17">Internals</a><a class="headerlink" href="#internals" title="Permalink to this headline">¶</a></h2>
+<p>PyIBL is built on top of <a class="reference external" href="http://halle.psy.cmu.edu/pyactup/">PyACTUp</a>, a Python implementation of
+a portion of <a class="reference external" href="http://act-r.psy.cmu.edu/">ACT-R</a>’s declarative memory. This chapter describes the computations
+underlying decisions made by PyIBL, which are mostly carried out in the underlying PyACTUp code.</p>
+<p>The fundamental unit of memory in PyIBL is an instance (a “chunk” in PyACTUp), which combines the
+attributes of a choice with the result it led to, along with timing data.</p>
+<div class="section" id="activation">
+<h3><a class="toc-backref" href="#id18">Activation</a><a class="headerlink" href="#activation" title="Permalink to this headline">¶</a></h3>
+<p>A fundamental part of retrieving an instance from an agent’s memory is computing the activation of that instance,
+a real number describing
+how likely it is to be recalled, based on how frequently and recently it has been experienced by the <a class="reference internal" href="#pyibl.Agent" title="pyibl.Agent"><code class="xref py py-class docutils literal notranslate"><span class="pre">Agent</span></code></a>, and how well it
+matches the attributes of what is to be retrieved.</p>
+<p>The activation, <img class="math" src="_images/math/b6257049b58f99042cb3fb6efc6f2ac700fb27da.png" alt="A_{i}"/> of instance <em>i</em> is a sum of three
+components,</p>
+<blockquote>
+<div><div class="math">
+<p><img src="_images/math/6b14397dcbb256ac1c9c7ca53436b1a330007fe3.png" alt="A_{i} = B_{i} + \epsilon_{i} + P_{i}"/></p>
+</div></div></blockquote>
+<p>the base level activation, the activation noise, and the partial matching correction.</p>
+<div class="section" id="base-level-activation">
+<h4><a class="toc-backref" href="#id19">Base level activation</a><a class="headerlink" href="#base-level-activation" title="Permalink to this headline">¶</a></h4>
+<p>The base level activation, <img class="math" src="_images/math/32069ff43cb732a8826d22b93417068b45ac7015.png" alt="B_{i}"/>, describes the frequency and recency of the instance <em>i</em>,
+and depends upon the <code class="xref py py-attr docutils literal notranslate"><span class="pre">decay</span></code> parameter of the <a class="reference internal" href="#pyibl.Agent" title="pyibl.Agent"><code class="xref py py-class docutils literal notranslate"><span class="pre">Agent</span></code></a>, <em>d</em>. In the normal case, when the
+agent’s <code class="xref py py-attr docutils literal notranslate"><span class="pre">optimized_learning</span></code> parameter is <code class="docutils literal notranslate"><span class="pre">False</span></code>, the base level activation is computed using
+the amount of time that has elapsed since each of the past appearances of <em>i</em>, which in the following
+are denoted as the various <img class="math" src="_images/math/3ca76b397fc80ad884654b20cd9a8fc7644742e3.png" alt="t_{ij}"/>.</p>
+<blockquote>
+<div><div class="math">
+<p><img src="_images/math/b984d9d373dd6f5f3cae8cc965a0d22962514b8e.png" alt="B_{i} = \ln(\sum_{j} t_{ij}^{-d})"/></p>
+</div></div></blockquote>
+<p>If the agent’s <code class="xref py py-attr docutils literal notranslate"><span class="pre">optimized_learning</span></code> parameter is <code class="docutils literal notranslate"><span class="pre">True</span></code> an approximation is used instead, often less taxing of
+computational resources. It is particularly useful if the same instances are expected to be seen many times, and assumes
+that repeated experiences of the various instances are distributed roughly evenly over time.
+Instead of using the times of all the past occurrences of <em>i</em>, it uses <img class="math" src="_images/math/ee70e1a1a2cd2143b1fb067fabe96455bd33aa0a.png" alt="L_i"/>, the amount of time since
+the first appearance of <em>i</em>, and <img class="math" src="_images/math/29920eacb87ef0eb96e99aca37a523798ce98563.png" alt="n_i"/>, a count of the number of times <em>i</em> has appeared.</p>
+<blockquote>
+<div><div class="math">
+<p><img src="_images/math/0d77b4c77af0b50f95b91c17b76e305824c1fecb.png" alt="B_{i} = \ln(\frac{n_i}{1 - d}) - d \ln(L_i)"/></p>
+</div></div></blockquote>
+</div>
+<div class="section" id="activation-noise">
+<h4><a class="toc-backref" href="#id20">Activation noise</a><a class="headerlink" href="#activation-noise" title="Permalink to this headline">¶</a></h4>
+<p>The activation noise, <img class="math" src="_images/math/51ab547b9846de66b42bb532fb9bb1250a7574c0.png" alt="\epsilon_{i}"/>, implements the stochasticity of retrievals from an agent’s memory.
+It is sampled from a logistic distribution centered on zero. An <a class="reference internal" href="#pyibl.Agent" title="pyibl.Agent"><code class="xref py py-class docutils literal notranslate"><span class="pre">Agent</span></code></a> has a scale
+parameter, <code class="xref py py-attr docutils literal notranslate"><span class="pre">noise</span></code>, for this distribution. It is resampled each time the activation is computed.</p>
+<p>Note that setting the <code class="docutils literal notranslate"><span class="pre">noise</span></code> parameter to zero results in supplying
+no noise to the activation. This does not quite make operation of
+PyIBL deterministic, since retrievals of instances with the same
+activations are resolved randomly.</p>
+</div>
+<div class="section" id="id2">
+<h4><a class="toc-backref" href="#id21">Partial Matching</a><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h4>
+<p>If the agent’s <code class="xref py py-attr docutils literal notranslate"><span class="pre">mismatch_penalty</span></code> parameter is <code class="docutils literal notranslate"><span class="pre">None</span></code>, the partial matching correction, <img class="math" src="_images/math/faa6e2ee51eb15bb17146a7b28ed993c879dea3e.png" alt="P_{i}"/>, is zero.
+Otherwise <img class="math" src="_images/math/faa6e2ee51eb15bb17146a7b28ed993c879dea3e.png" alt="P_{i}"/> depends upon the similarities of the attributes of the instance to those attributes
+being sought in the retrieval and the value of the <cite>mismatch_penalty</cite> parameter.</p>
+<p>PyIBL represents similarities as real numbers between zero and one, inclusive, where two values being completely similar, identical,
+has a value of one; and being completely dissimilar has a value of zero; with various other degrees of similarity being
+positive, real numbers less than one.</p>
+<p>How to compute the similarity of two instances is determined by the programmer, using the
+function <a class="reference internal" href="#pyibl.similarity" title="pyibl.similarity"><code class="xref py py-func docutils literal notranslate"><span class="pre">similarity()</span></code></a>.</p>
+<p>If the <code class="xref py py-attr docutils literal notranslate"><span class="pre">mismatch_penalty</span></code> parameter has real value <img class="math" src="_images/math/4a3598141469c2555591e66606a1b86d4ec6dca9.png" alt="\mu"/> and the similarity of slot <em>k</em> of <em>i</em> to the desired
+value of that slot in the retrieval is <img class="math" src="_images/math/7664d4011174d31d8a9d848dffb4746a20f7ac61.png" alt="S_{ik}"/>, the partial matching correction is</p>
+<blockquote>
+<div><div class="math">
+<p><img src="_images/math/cdd93fb74371c5b937cd4177dba8eb4e6603b8c0.png" alt="P_{i} = \mu \sum_{k} (S_{ik} - 1)"/></p>
+</div></div></blockquote>
+<p>The value of <img class="math" src="_images/math/4a3598141469c2555591e66606a1b86d4ec6dca9.png" alt="\mu"/> should be positive, so <img class="math" src="_images/math/faa6e2ee51eb15bb17146a7b28ed993c879dea3e.png" alt="P_{i}"/> is negative, and increasing dissimilarities
+reduce the total activation, scaled by the value of <img class="math" src="_images/math/4a3598141469c2555591e66606a1b86d4ec6dca9.png" alt="\mu"/>.</p>
+<p>Attributes for which no similarity function is defined are always matched exactly, non-matching instances not
+being considered at all. This is equivalent to such mismatching attributes having a negatively infinite
+mismatch partial matching correction.</p>
+</div>
+</div>
+<div class="section" id="blending">
+<h3><a class="toc-backref" href="#id22">Blending</a><a class="headerlink" href="#blending" title="Permalink to this headline">¶</a></h3>
+<p>Once the activations of all the relevant instances have been computed, they are used to compute
+a blended value of the utility, an average of the utilities of those instances weighted by a function
+of the instances’ activations, the probability of retrieval.</p>
+<p>A parameter, the <code class="xref py py-attr docutils literal notranslate"><span class="pre">temperature</span></code>, or <img class="math" src="_images/math/914b2d4b6659b86d3153d5510839dfb254dfc8a3.png" alt="\tau"/>, is used in constructing this blended value.
+In PyIBL the value of this parameter is by default the <code class="xref py py-attr docutils literal notranslate"><span class="pre">noise</span></code> parameter used for activation noise,
+multiplied by <img class="math" src="_images/math/8db467030dc4a1799b53811c4d3e227c3511fb3f.png" alt="\sqrt{2}"/>. However it can be set independently of the <code class="docutils literal notranslate"><span class="pre">noise</span></code>, if preferred.</p>
+<p>If <em>m</em> is the set of instances matching the criteria, and, for <img class="math" src="_images/math/d14725a6c7d2735ea1940b918de1ecc07fc069f8.png" alt="i \in m"/>, the activation
+of instance <em>i</em> is <img class="math" src="_images/math/39ca78a191cf318e3152dc8877686ff5cebe4d1e.png" alt="a_{i}"/>, we define a weight, <img class="math" src="_images/math/5d0751147462f669e3a133a6c53e1499e9d5b615.png" alt="w_{i}"/>, used to compute a probability of retrieval
+describing the contribution <em>i</em> makes to the blended value</p>
+<blockquote>
+<div><div class="math">
+<p><img src="_images/math/2134a0ca14e173a9e7df78a585d6d2501963c69a.png" alt="w_{i} = e^{a_{i} / \tau}"/></p>
+</div></div></blockquote>
+<p>The probabilty of retrieval is simply the weight divided by the sum of all the weights for a given potential outcome.
+If <img class="math" src="_images/math/ea13b9e348dca22db563042e60e36be2ee06ba83.png" alt="u_{i}"/> is the utility, that is the outcome value, stored in instance <em>i</em>,
+the  blended value, <em>BV</em>, is then</p>
+<blockquote>
+<div><div class="math">
+<p><img src="_images/math/2785d60de9c63e57cbfaffd4750becb00160d7eb.png" alt="BV =\, \sum_{i \in m}{\, \frac{w_{i}}{\sum_{j \in m}{w_{j}}} \; u_{i}}"/></p>
+</div></div></blockquote>
+</div>
+</div>
+<div class="section" id="changes-to-pyibl">
+<h2><a class="toc-backref" href="#id23">Changes to PyIBL</a><a class="headerlink" href="#changes-to-pyibl" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="changes-between-versions-4-1-and-4-2">
+<h3><a class="toc-backref" href="#id24">Changes between versions 4.1 and  4.2</a><a class="headerlink" href="#changes-between-versions-4-1-and-4-2" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>The <code class="xref py py-meth docutils literal notranslate"><span class="pre">choose2()</span></code> method has been added to the API.</p></li>
+<li><p>The <code class="xref py py-meth docutils literal notranslate"><span class="pre">respond()</span></code> method now takes a second, optional argument.</p></li>
+<li><p>There is more flexability possible when partially matching attributes.</p></li>
+<li><p>PyIBL now requires Pythonn verison 3.7 or later.</p></li>
+<li><p>General tidying and minor bug fixes.</p></li>
+</ul>
+</div>
+<div class="section" id="changes-between-versions-4-0-and-4-1">
+<h3><a class="toc-backref" href="#id25">Changes between versions 4.0 and  4.1</a><a class="headerlink" href="#changes-between-versions-4-0-and-4-1" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>The API for <code class="xref py py-class docutils literal notranslate"><span class="pre">DelayedFeedback</span></code> has been changed.</p></li>
+<li><p>The <code class="xref py py-meth docutils literal notranslate"><span class="pre">reset()</span></code> now has an additional, optional argument, <em>preserve_prepopulated</em>.</p></li>
+<li><p>Some minor bug fixes.</p></li>
+</ul>
+</div>
+<div class="section" id="changes-between-versions-3-0-and-4-0">
+<h3><a class="toc-backref" href="#id26">Changes between versions 3.0 and  4.0</a><a class="headerlink" href="#changes-between-versions-3-0-and-4-0" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Situations and SituationDecisions are no longer needed. Choices are now ordinary
+Python objects, such as dicts and lists.</p></li>
+<li><p>The overly complex logging mechanism was a rich source of confusion and bugs. It
+has been eliminated, and replaced by a simpler mechanism, <code class="xref py py-attr docutils literal notranslate"><span class="pre">details</span></code>, which
+facilitates the construction of rich log files in whatever forms may be desired.</p></li>
+<li><p>Populations were rarely used, badly understood and even when they
+were used were mostly just used to facilitate logging from multiple
+agents; in version 4.0 populations have been eliminated, though they may come
+back in a different form in a future version of PyIBL.</p></li>
+<li><p>Methods and attributes are now uniformly spelled in <code class="docutils literal notranslate"><span class="pre">snake_case</span></code> instead of <code class="docutils literal notranslate"><span class="pre">camelCase</span></code>.</p></li>
+<li><p>Many attributes of Agents can now be specified when they are created.</p></li>
+<li><p>Similarities are now shared between Agents, by attribute name, rather than being
+specific to an Agent.</p></li>
+<li><p>Several common similarity functions are predefined.</p></li>
+<li><p>The current <code class="xref py py-attr docutils literal notranslate"><span class="pre">time</span></code> can now be queried.</p></li>
+<li><p>Delayed feedback is now supported.</p></li>
+<li><p>PyIBL is now built on top of <a class="reference external" href="http://halle.psy.cmu.edu/pyactup/">PyACTUp</a>.</p></li>
+<li><p>Some bugs have been fixed, and things have been made generally tidier internally.</p></li>
+</ul>
+</div>
+<div class="section" id="changes-between-versions-2-0-and-3-0">
+<h3><a class="toc-backref" href="#id27">Changes between versions 2.0 and  3.0</a><a class="headerlink" href="#changes-between-versions-2-0-and-3-0" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p>Similarity and partial matching are now implemented.</p></li>
+<li><p>SituationDecisions have changed completely, and are no longer created by an Agent.</p></li>
+<li><p>Logging has changed substantially: there can be multiple, differently configured
+logs; it is now possible to have per-Agent logs, not just Population-wide logs;
+and logging configuration now controls not just which columns are shown, but
+the order in which they appear.</p></li>
+<li><p>Default values of noise and decay are now 0.25 and 0.5, respectively, matching
+oral common practice in ACT-R, instead of ACT-R’s out of the box defaults, which
+are rarely useful.</p></li>
+<li><p>General internal tidying</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Note that version 3.0 was never publicly released though
+preliminary internal development versions of it it were used for a
+variety of experiments, both within the DDMLab and elsewhere.</p>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="changes-between-versions-1-0-and-2-0">
+<h3><a class="toc-backref" href="#id28">Changes between versions 1.0 and 2.0</a><a class="headerlink" href="#changes-between-versions-1-0-and-2-0" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Agents are now publicly visible objects that can be passed around and moved from
+one Population to another. The API has completely changed so that you no longer
+cite an agent by name in a Population.</p></li>
+<li><p>Options presented to Agents are no longer merely decisions, but include situations as well.</p></li>
+<li><p>Logging is configured with strings rather than constants.</p></li>
+<li><p>Logging can now be configured to include or exclude unused options and instances.</p></li>
+<li><p>Bug fixes, particularly in logging.</p></li>
+<li><p>Better documentation.</p></li>
+<li><p>General internal tidying</p></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="#">PyIBL</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2014-2020 Carnegie Mellon University.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
