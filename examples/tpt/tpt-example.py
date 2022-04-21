@@ -6,7 +6,7 @@ two different possible outcomes, which being determined probabilistically. This 
 implemented in this module by the function iterated_choice.
 
 This module applies iterated_choice to the sixty problems of the Technion Prediction
-Tournament (2008) (http://tx.technion.ac.il/~erev/Comp/Comp.html) problems, which are all
+Tournament (2008) (http://web.archive.org/web/20170209081635/http://tx.technion.ac.il/~erev/Comp/Comp.html) problems, which are all
 of this form. The sixty problems differ only in four parameters: the safe payoff, the two
 possible risky payoffs, and a probability for determining which of the risky payoffs will
 apply each time it is needed. The payoffs are all real numbers greater than -30 and less
