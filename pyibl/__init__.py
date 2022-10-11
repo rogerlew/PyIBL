@@ -190,7 +190,7 @@ class Agent:
 
     @temperature.setter
     def temperature(self, value):
-        self._memory.temperature = value
+        self._memory.temperature_param = value
 
     @property
     def decay(self):
