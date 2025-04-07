@@ -69,7 +69,11 @@ class Agent:
                  attributes=[],
                  noise=pyactup.DEFAULT_NOISE,
                  decay=pyactup.DEFAULT_DECAY,
+                 stress=pyactup.DEFAULT_STRESS,
                  temperature=None,
+                 fatigue=True,
+                 fatigue_ut_0=4,
+                 fatigue_ut_tot=-0.4,
                  mismatch_penalty=None,
                  optimized_learning=False,
                  default_utility=None):
@@ -81,6 +85,10 @@ class Agent:
             raise TypeError(f"Agent name {name} is not a non-empty string")
         self._name = name
         self._memory = pyactup.Memory(learning_time_increment=0,
+                                      stress=stress,
+                                      fatigue=fatigue,
+                                      fatigue_ut_0=fatigue_ut_0,
+                                      fatigue_ut_tot=fatigue_ut_tot,
                                       optimized_learning=optimized_learning)
         self.temperature = temperature # set temperature BEFORE noise
         self.noise = noise
@@ -91,6 +99,7 @@ class Agent:
         self._attribute_similarities = [None] * len(self._attributes)
         self._details = None
         self._trace = False
+
         self.reset()
         self._test_default_utility()
 
@@ -190,7 +199,7 @@ class Agent:
 
     @temperature.setter
     def temperature(self, value):
-        self._memory.temperature = value
+        self._memory.temperature_param = value
 
     @property
     def decay(self):
@@ -719,7 +728,8 @@ class Agent:
                             if self._default_utility_populates:
                                 self._at_time(0, lambda: self._memory.learn(_utility=u, **q))
                         else:
-                            raise RuntimeError(f"No experience available for choice {c}")
+                            u = 0
+                            #raise RuntimeError(f"No experience available for choice {c}")
                     utilities.append(u)
                     if include_retrieval_probabilities:
                         ret_probs.append([Agent.RetrievalProbability(Agent._extract_instance_utility(inst),
